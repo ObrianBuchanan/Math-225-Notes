@@ -1,0 +1,50 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+\setlist{nosep, leftmargin=1.5em}
+
+\titleformat{\section}
+  {\Large\bfseries\color{black}}
+  {}
+  {0em}
+  {}
+  [\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{black}}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{black}}{}{0em}{}
+
+\begin{document}
+
+% Standalone Centered Title Page
+\begin{titlepage}
+    \vspace*{\fill}
+    \begin{center}
+        {\Huge\bfseries MATH 225 -- Applied Linear Algebra II\par}
+        \vspace{0.5cm}
+        {\LARGE Course Notes\par}
+        \vspace{1.2cm}
+        {\Large Obrian Buchanan\par}
+        \vspace{0.3cm}
+        {\large University of Waterloo\par}
+        \vspace{0.3cm}
+        {\large Fall 2026\par}
+    \end{center}
+    \vspace*{\fill}
+\end{titlepage}
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+% Chapters
+\input{lecture01.tex}
+\newpage
+
+
+\end{document}
