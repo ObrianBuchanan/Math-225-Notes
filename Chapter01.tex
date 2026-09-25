@@ -1,0 +1,222 @@
+\section{Chapter 1: General Vector Spaces}
+
+\subsubsection*{Vector Addition Axioms}
+\begin{enumerate}
+    \item \textbf{Closure under Addition:} 
+    For all $u, v \in V$, $u + v \in V$.
+    
+    \item \textbf{Commutativity:} 
+    $u + v = v + u$ for all $u, v \in V$.
+    
+    \item \textbf{Associativity:} 
+    $(u + v) + w = u + (v + w)$ for all $u, v, w \in V$.
+    
+    \item \textbf{Additive Identity:} 
+    There exists $0 \in V$ such that $v + 0 = v$ for all $v \in V$.
+    
+    \item \textbf{Additive Inverse:} 
+    For each $v \in V$, there exists $-v \in V$ such that $v + (-v) = 0$.
+\end{enumerate}
+
+\subsubsection*{Scalar Multiplication Axioms}
+\begin{enumerate}
+    \setcounter{enumi}{5}
+    \item \textbf{Closure under Scalar Multiplication:} 
+    For all $c \in \mathbb{R}$ and $v \in V$, $cv \in V$.
+    
+    \item \textbf{Vector Distributivity:} 
+    $c(u + v) = cu + cv$ for all $c \in \mathbb{R}$ and $u, v \in V$.
+    
+    \item \textbf{Scalar Distributivity:} 
+    $(c + d)v = cv + dv$ for all $c, d \in \mathbb{R}$ and $v \in V$.
+    
+    \item \textbf{Associativity:} 
+    $(cd)v = c(dv)$ for all $c, d \in \mathbb{R}$ and $v \in V$.
+    
+    \item \textbf{Multiplicative Identity:} 
+    $1v = v$ for all $v \in V$.
+\end{enumerate}
+
+\subsection{The Elements of a Vector Space}
+The elements of a vector space $V$ are called \textbf{vectors}. The elements of the field $\mathbb{R}$ are called \textbf{scalars}.
+
+\vspace{1em}
+\noindent\textbf{Examples of Vector Spaces:}
+
+(1) $\mathbb{R}^n = \left\{ \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix} : x_1, \dots, x_n \in \mathbb{R} \right\}$ under standard vector addition and scalar multiplication.
+
+\vspace{1em}
+
+(2) $M_{m \times n}(\mathbb{R})$ under standard matrix addition and scalar multiplication.
+
+\vspace{1em}
+
+(3) $P_n(\mathbb{R})$, the space of all polynomials of degree $\le n$, defined with operations:
+\[
+(f + g)(x) = f(x) + g(x) \quad \text{and} \quad (cf)(x) = c f(x) \quad (c \in \mathbb{R}).
+\]
+Then $P_n(\mathbb{R})$ with these operations is a vector space over $\mathbb{R}$.
+
+% =========================================================================
+% SECTION 1.2: AXIOMATIC PROPERTIES & SUBSPACES
+% =========================================================================
+
+\subsection{Fundamental Properties Derived from the Axioms}
+
+The definition of a vector space guarantees that standard arithmetic rules apply without relying on the specific nature of the objects (whether they are $n$-tuples, matrices, or functions).
+
+\vspace{1em}
+
+\noindent \textbf{Theorem (Elementary Arithmetic Properties of Vector Spaces):} Let $V$ be a vector space over $\mathbb{R}$. For all $\vec{x} \in V$ and all $t \in \mathbb{R}$:
+\begin{enumerate}
+    \item $0\vec{x} = \vec{0}$
+    \item $t\vec{0} = \vec{0}$
+    \item $(-1)\vec{x} = -\vec{x}$
+    \item If $t\vec{x} = \vec{0}$, then either $t = 0$ or $\vec{x} = \vec{0}$.
+\end{enumerate}
+
+\bigskip
+
+\begin{proof}
+\textbf{Proof of (1):} In the real numbers, $0 + 0 = 0$. By scalar distributivity:
+\[
+0\vec{x} = (0 + 0)\vec{x} = 0\vec{x} + 0\vec{x}.
+\]
+Since $0\vec{x} \in V$, its additive inverse $-(0\vec{x})$ exists in $V$. Adding this inverse to both sides:
+\begin{align*}
+0\vec{x} + (-(0\vec{x})) &= (0\vec{x} + 0\vec{x}) + (-(0\vec{x})) \\
+\vec{0} &= 0\vec{x} + \bigl(0\vec{x} + (-(0\vec{x}))\bigr) \\
+\vec{0} &= 0\vec{x} + \vec{0} \\
+\vec{0} &= 0\vec{x}.
+\end{align*}
+Therefore, $0\vec{x} = \vec{0}$.
+
+\bigskip
+\vspace{0.5em}
+
+\textbf{Proof of (2):} By the additive identity axiom, $\vec{0} + \vec{0} = \vec{0}$. Multiplying by scalar $t$ and using \indent vector distributivity:
+\[
+t\vec{0} = t(\vec{0} + \vec{0}) = t\vec{0} + t\vec{0}.
+\]
+\indent Adding $-(t\vec{0})$ to both sides and associating terms yields $t\vec{0} = \vec{0}$.
+
+\bigskip
+\vspace{0.5em}
+
+\textbf{Proof of (3):} We show that $(-1)\vec{x}$ behaves as the unique additive inverse of $\vec{x}$:
+\[
+\vec{x} + (-1)\vec{x} = 1\vec{x} + (-1)\vec{x} = (1 + (-1))\vec{x} = 0\vec{x} = \vec{0}.
+\]
+\indent By uniqueness of the additive inverse in $V$, $(-1)\vec{x} = -\vec{x}$.
+
+\bigskip
+\vspace{0.5em}
+
+\textbf{Proof of (4):} Suppose $t\vec{x} = \vec{0}$. If $t = 0$, the claim holds. If $t \neq 0$, the multiplicative inverse \indent $t^{-1} \in \mathbb{R}$ exists. Multiplying both sides:
+\[
+t^{-1}(t\vec{x}) = t^{-1}\vec{0} \implies (t^{-1}t)\vec{x} = \vec{0} \implies 1\vec{x} = \vec{0} \implies \vec{x} = \vec{0}.
+\]
+\end{proof}
+
+\subsection{Subspaces and the Subspace Test}
+
+\noindent\textbf{Definition (Subspace).}
+Let $V$ be a vector space over $\mathbb{R}$. A subset $U \subseteq V$ is called a \textbf{subspace} of $V$ if $U$ is itself a vector space over $\mathbb{R}$ under the addition and scalar multiplication operations inherited from $V$.
+
+\medskip
+\noindent\textbf{Theorem (Subspace Test).} 
+Let $V$ be a vector space over $\mathbb{R}$. A subset $U \subseteq V$ is a subspace of $V$ if and only if:
+\begin{enumerate}[itemsep=0.8em, topsep=0.5em]
+    \item $\vec{0} \in U$, where $\vec{0}$ is the zero vector of $V$ (in particular, $U \neq \emptyset$).
+    \item For all $\vec{x}, \vec{y} \in U$, $\vec{x} + \vec{y} \in U$ (\textbf{Closure under vector addition}).
+    \item For all $\alpha \in \mathbb{R}$ and $\vec{x} \in U$, $\alpha \vec{x} \in U$ (\textbf{Closure under scalar multiplication}).
+\end{enumerate}
+
+\begin{proof}
+\noindent\textbf{($\implies$)} If $U$ is a subspace, it satisfies all vector space axioms on its own. In particular, it must be closed under addition and scalar multiplication, and contain an additive identity $\vec{0}_U \in U$. 
+
+Since $\vec{0}_U + \vec{0}_U = \vec{0}_U$, adding the inverse $-\vec{0}_U$ computed in $V$ gives $\vec{0}_U = \vec{0}_V$.
+
+\bigskip
+\vspace{0.5em}
+
+\noindent\textbf{($\impliedby$)} Assume conditions (1), (2), and (3) hold. Closure under addition and scalar multiplication, as well as the existence of the additive identity, are directly satisfied. 
+
+For any $\vec{x} \in U$, setting $\alpha = -1$ ensures that $-\vec{x} = (-1)\vec{x} \in U$.
+
+The remaining algebraic axioms (commutativity, associativity, and distributivity) hold for all elements in $U$ automatically because they hold throughout the larger space $V$. Thus, $U$ is a vector space.
+\end{proof}
+
+\subsection*{Worked Examples: Subspace Analysis}
+
+\noindent\textbf{Example 1 (Polynomial with Root Constraint).}
+Let $V = P_2(\mathbb{R})$. Define the subset:
+\[ 
+U = \{p(x) \in P_2(\mathbb{R}) \mid p(3) = 0\}.
+\]
+Prove that $U$ is a subspace of $P_2(\mathbb{R})$.
+
+\begin{proof}
+We test the three conditions of the Subspace Test:
+\begin{enumerate}[itemsep=0.8em, topsep=0.5em]
+    \item \textbf{Zero Vector:} The zero polynomial is $z(x) = 0 + 0x + 0x^2$. Evaluating at $x = 3$ gives $z(3) = 0$. Hence, $z \in U$.
+    \item \textbf{Closure under Addition:} Let $p(x), q(x) \in U$. Then $p(3) = 0$ and $q(3) = 0$. Consider their sum evaluated at $x = 3$:
+    \[
+    (p + q)(3) = p(3) + q(3) = 0 + 0 = 0.
+    \]
+    Thus, $p + q \in U$.
+    \item \textbf{Closure under Scalar Multiplication:} Let $p(x) \in U$ and $\alpha \in \mathbb{R}$. Then:
+    \[
+    (\alpha p)(3) = \alpha \cdot p(3) = \alpha(0) = 0.
+    \]
+    Thus, $\alpha p \in U$.
+\end{enumerate}
+By the Subspace Test, $U$ is a subspace of $P_2(\mathbb{R})$.
+\end{proof}
+
+\medskip
+\noindent\textbf{Example 2 (Traceless Matrices).} 
+Let $V = M_{2\times 2}(\mathbb{R})$. Define:
+\[
+W = \{ A \in M_{2\times 2}(\mathbb{R}) \mid \operatorname{tr}(A) = 0 \}.
+\]
+Recall that for $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$, $\operatorname{tr}(A) = a + d$. Show that $W$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
+
+\begin{proof}
+\begin{enumerate}[itemsep=0.8em, topsep=0.5em]
+    \item \textbf{Zero Vector:} The zero matrix $O_{2\times 2} = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}$ satisfies $\operatorname{tr}(O_{2\times 2}) = 0 + 0 = 0$. Hence, $O_{2\times 2} \in W$.
+    \item \textbf{Closure under Addition:} Let $A, B \in W$, so $\operatorname{tr}(A) = 0$ and $\operatorname{tr}(B) = 0$. By trace linearity:
+    \[
+    \operatorname{tr}(A + B) = \operatorname{tr}(A) + \operatorname{tr}(B) = 0 + 0 = 0.
+    \]
+    Hence, $A + B \in W$.
+    \item \textbf{Closure under Scalar Multiplication:} Let $A \in W$ and $\alpha \in \mathbb{R}$. Then:
+    \[
+    \operatorname{tr}(\alpha A) = \alpha \operatorname{tr}(A) = \alpha(0) = 0.
+    \]
+    Hence, $\alpha A \in W$.
+\end{enumerate}
+Thus, $W$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
+\end{proof}
+
+\medskip
+\noindent\textbf{Example 3 (Affine Coefficient Failure).} 
+Let $V = P_2(\mathbb{R})$ and consider the subset:
+\[
+S = \{ p(x) = ax^2 + bx + c \in P_2(\mathbb{R}) \mid a - 2b + c = 3 \}.
+\]
+Determine whether $S$ is a subspace of $V$.
+
+\medskip
+\noindent\textbf{Solution:} 
+The zero polynomial $z(x) = 0x^2 + 0x + 0$ has coefficients $a = 0, b = 0, c = 0$. Evaluating the defining equation:
+\[
+a - 2b + c = 0 - 2(0) + 0 = 0 \neq 3.
+\]
+Because the zero polynomial is not in $S$, condition (1) of the Subspace Test fails immediately. Thus, $S$ is \textbf{not} a subspace of $P_2(\mathbb{R})$.
+
+% =========================================================================
+% SECTION 1.3: SPAN, INDEPENDENCE, AND BASES
+% =========================================================================
+
+\subsection{Linear Span and Minimal Subspaces}
