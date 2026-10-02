@@ -1,7 +1,7 @@
 \section{Chapter 1: General Vector Spaces}
 
 \subsubsection*{Vector Addition Axioms}
-\begin{enumerate}
+\begin{enumerate}[itemsep=0.8em, topsep=0.5em]
     \item \textbf{Closure under Addition:} 
     For all $u, v \in V$, $u + v \in V$.
     
@@ -19,7 +19,7 @@
 \end{enumerate}
 
 \subsubsection*{Scalar Multiplication Axioms}
-\begin{enumerate}
+\begin{enumerate}[itemsep=0.8em, topsep=0.5em]
     \setcounter{enumi}{5}
     \item \textbf{Closure under Scalar Multiplication:} 
     For all $c \in \mathbb{R}$ and $v \in V$, $cv \in V$.
@@ -68,7 +68,7 @@ The definition of a vector space guarantees that standard arithmetic rules apply
 \vspace{1em}
 
 \noindent \textbf{Theorem (Elementary Arithmetic Properties of Vector Spaces):} Let $V$ be a vector space over $\mathbb{R}$. For all $\vec{x} \in V$ and all $t \in \mathbb{R}$:
-\begin{enumerate}
+\begin{enumerate}[itemsep=0.8em, topsep=0.5em]
     \item $0\vec{x} = \vec{0}$
     \item $t\vec{0} = \vec{0}$
     \item $(-1)\vec{x} = -\vec{x}$
@@ -326,7 +326,7 @@ Let $V$ be a vector space. A subset $\mathcal{B} = \{\vec{v}_1, \dots, \vec{v}_k
     \]
     \item \textbf{Polynomial Space $P_2(\mathbb{R})$:} The standard basis is the monomial basis $\mathcal{B} = \{1, x, x^2\}$.
 \end{itemize}
-
+\medskip
 \begin{proof}[Verification that $\{1, x, x^2\}$ is a Basis for $P_2(\mathbb{R})$]
 \begin{enumerate}[itemsep=0.8em, topsep=0.5em]
     \item \textbf{Spanning:} Any $p(x) \in P_2(\mathbb{R})$ has the form $p(x) = a + bx + cx^2$ where $a, b, c \in \mathbb{R}$. We can write:
@@ -334,6 +334,7 @@ Let $V$ be a vector space. A subset $\mathcal{B} = \{\vec{v}_1, \dots, \vec{v}_k
     p(x) = a(1) + b(x) + c(x^2).
     \]
     Hence, $P_2(\mathbb{R}) = \operatorname{Span}\{1, x, x^2\}$.
+    \medskip
     \item \textbf{Linear Independence:} Suppose $c_1(1) + c_2(x) + c_3(x^2) = 0(x)$, where $0(x)$ is the zero polynomial (which evaluates to $0$ for all $x \in \mathbb{R}$). 
     Evaluating at $x = 0$ gives $c_1 = 0$. 
     Evaluating at $x = 1$ and $x = -1$ yields:
@@ -344,5 +345,145 @@ Let $V$ be a vector space. A subset $\mathcal{B} = \{\vec{v}_1, \dots, \vec{v}_k
 \end{enumerate}
 Because $\{1, x, x^2\}$ spans $P_2(\mathbb{R})$ and is linearly independent, it is a basis for $P_2(\mathbb{R})$.
 \end{proof}
+
+\medskip
+
+\noindent \textbf{Theorem:} Let $V$ be a non-empty vector space and suppose $\vec{V}_1, \dots, \vec{V}_k \in V$ and let
+If $\vec{v} \in $\{$\vec{v}_1$, \dots, $\vec{v}_{-1}$, $\vec{v}_{+1}$, \dots, $\vec{v}_k$\}, for some i = 1, \dots, k, then
+
+\[ 
+\operatorname{Span}\{\vec{v}_1, \dots, \vec{v}_k\}
+=
+\operatorname{Span}\{\vec{v}_1, \dots, \vec{v}_{i-1}, \vec{v}_{1+1}, \dots, \vec{v}_k\}.
+\]
+
+\bigskip
+\noindent
+\underline{\textbf{Example:}} Let $U = \operatorname{Span}\left\{
+\begin{bmatrix} 1 \\ 1 \\ -1 \\ 3 \end{bmatrix},
+\begin{bmatrix} -2 \\ -2 \\ 2 \\ -6 \end{bmatrix},
+\begin{bmatrix} 2 \\ 1 \\ 1 \\ 2 \end{bmatrix},
+\begin{bmatrix} 3 \\ 2 \\ 0 \\ 5 \end{bmatrix}
+\right\}$. Find a basis for $U$.
+
+\bigskip
+\noindent
+\underline{\textbf{Solution:}} We first form a matrix whose columns are the given vectors:
+\[
+\begin{bmatrix}
+ 1 & -2 & 2 & 3 \\
+ 1 & -2 & 1 & 2 \\
+-1 &  2 & 1 & 0 \\
+ 3 & -6 & 2 & 5
+\end{bmatrix}
+\]
+
+We perform row reduction on the matrix to find an REF (and its reduced form, RREF):
+
+\[
+\begin{bmatrix}
+ 1 & -2 & 2 & 3 \\
+ 1 & -2 & 1 & 2 \\
+-1 &  2 & 1 & 0 \\
+ 3 & -6 & 2 & 5
+\end{bmatrix}
+\xrightarrow{\substack{R_2 \leftarrow R_2 - R_1 \\ R_3 \leftarrow R_3 + R_1 \\ R_4 \leftarrow R_4 - 3R_1}}
+\begin{bmatrix}
+1 & -2 &  2 &  3 \\
+0 &  0 & -1 & -1 \\
+0 &  0 &  3 &  3 \\
+0 &  0 & -4 & -4
+\end{bmatrix}
+\]
+
+Multiply row 2 by $-1$:
+\[
+\xrightarrow{R_2 \leftarrow -R_2}
+\begin{bmatrix}
+1 & -2 & 2 & 3 \\
+0 &  0 & 1 & 1 \\
+0 &  0 & 3 & 3 \\
+0 &  0 & -4 & -4
+\end{bmatrix}
+\]
+
+Eliminate entries below the pivot in column 3:
+\[
+\xrightarrow{\substack{R_3 \leftarrow R_3 - 3R_2 \\ R_4 \leftarrow R_4 + 4R_2}}
+\begin{bmatrix}
+1 & -2 & 2 & 3 \\
+0 &  0 & 1 & 1 \\
+0 &  0 & 0 & 0 \\
+0 &  0 & 0 & 0
+\end{bmatrix}
+\]
+
+Finally, clear the entry above the pivot ($R_1 \leftarrow R_1 - 2R_2$) to get the matrix shown in the solution:
+\[
+\xrightarrow{R_1 \leftarrow R_1 - 2R_2}
+\begin{bmatrix}
+1 & -2 & 0 & 1 \\
+0 &  0 & 1 & 1 \\
+0 &  0 & 0 & 0 \\
+0 &  0 & 0 & 0
+\end{bmatrix}
+\]
+
+We take the leading entries
+
+\[
+B = \left\{
+    \begin{bmatrix} 1 \\ 1 \\ -1 \\ 3 \end{bmatrix},
+    \begin{bmatrix} 2 \\ 1 \\ 1 \\ 2 \end{bmatrix}
+\right\}
+\]
+
+\bigskip
+
+\underline{\textbf{Example:}} Let $U = \operatorname{Span}\{2 - x + x^2,\, 1 + x - 2x^2,\, 3 - x^2\}$. Find a basis for $U$.
+
+\bigskip
+\bigskip
+
+\underline{\textbf{Solution:}} Suppose $c_1, c_2, c_3 \in \mathbb{R}$ such that
+\[
+c_1(2-x+x^2) + c_2(1+x-2x^2) + c_3(3-x^2) = 0.
+\]
+
+\medskip
+
+\textbf{Linear System:}
+\[
+\begin{alignedat}{4}
+2c_1 & {}+{} &  c_2 & {}+{} & 3c_3 & {}={} 0 \\
+ -c_1 & {}+{} &  c_2 &       &      & {}={} 0 \\
+  c_1 & {}-{} & 2c_2 & {}-{} &  c_3 & {}={} 0
+\end{alignedat}
+\quad\xrightarrow{\text{Coefficient Matrix}}\quad
+\begin{bmatrix}
+ 2 &  1 &  3 \\
+-1 &  1 &  0 \\
+ 1 & -2 & -1
+\end{bmatrix}
+\xrightarrow{\text{REF}}
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & 1 \\
+0 & 0 & 0
+\end{bmatrix}
+\]
+
+\medskip
+
+\noindent Leading entries in the first and second columns, then
+\[
+B = \{2 - x + x^2,\, 1 + x - 2x^2\}
+\]
+
+\bigskip
+
+
+\subsection{\underline{Dimension of a Vector Space}}
+
 
 
