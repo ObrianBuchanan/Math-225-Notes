@@ -1,0 +1,281 @@
+\section{Lecture 1: General Vector Spaces and Subspaces}
+
+% Increases line spacing within matrices and arrays globally for this section
+\renewcommand{\arraystretch}{1.4} 
+\vspace{1em}
+
+\textbf{Intuition:} In previous courses, a "vector" was strictly an arrow in space (with magnitude and direction) or a column of numbers. In Applied Linear Algebra II, we generalize this concept entirely. A vector space is simply a mathematical sandbox. It is any collection of objects (whether they are matrices, polynomials, functions, or coordinates) that strictly obey a specific set of 10 rules. If they obey these rules, they are officially "vectors," and all the powerful theorems of linear algebra apply to them.
+
+The first five axioms govern how addition works internally, and the next five govern how scaling interacts with the vectors.
+
+\vspace{1.5em}
+\subsubsection*{Vector Addition Axioms}
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \item \textbf{Closure under Addition:} 
+    For all $u, v \in V$, the sum $u + v \in V$. (Adding two vectors cannot produce an object outside the space).
+    
+    \item \textbf{Commutativity:} 
+    $u + v = v + u$ for all $u, v \in V$.
+    
+    \item \textbf{Associativity:} 
+    $(u + v) + w = u + (v + w)$ for all $u, v, w \in V$.
+    
+    \item \textbf{Additive Identity:} 
+    There exists a unique element $0 \in V$ such that $v + 0 = v$ for all $v \in V$.
+    
+    \item \textbf{Additive Inverse:} 
+    For each $v \in V$, there exists a unique element $-v \in V$ such that $v + (-v) = 0$.
+\end{enumerate}
+
+\vspace{1.5em}
+\subsubsection*{Scalar Multiplication Axioms}
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \setcounter{enumi}{5}
+    \item \textbf{Closure under Scalar Multiplication:} 
+    For all $c \in \mathbb{R}$ and $v \in V$, the product $cv \in V$.
+    
+    \item \textbf{Vector Distributivity:} 
+    $c(u + v) = cu + cv$ for all $c \in \mathbb{R}$ and $u, v \in V$.
+    
+    \item \textbf{Scalar Distributivity:} 
+    $(c + d)v = cv + dv$ for all $c, d \in \mathbb{R}$ and $v \in V$.
+    
+    \item \textbf{Associativity:} 
+    $(cd)v = c(dv)$ for all $c, d \in \mathbb{R}$ and $v \in V$.
+    
+    \item \textbf{Multiplicative Identity:} 
+    $1v = v$ for all $v \in V$.
+\end{enumerate}
+
+\vspace{2em}
+% =========================================================================
+\subsection{The Elements of a Vector Space}
+\vspace{1em}
+
+The elements of a vector space $V$ are called \textbf{vectors}. The elements of the field (which for this course is always $\mathbb{R}$) are called \textbf{scalars}.
+
+\vspace{1.5em}
+
+\noindent\textbf{Canonical Examples of Vector Spaces:}
+
+\begin{enumerate}[label=(\arabic*), itemsep=1.5em, topsep=1em, leftmargin=*]
+    \item \textbf{Euclidean Space $\mathbb{R}^n$:} 
+    \[
+    \mathbb{R}^n = \left\{ \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix} : x_1, \dots, x_n \in \mathbb{R} \right\}
+    \]
+    This is the standard space from linear algebra. Vector addition and scalar multiplication are performed component-wise. The zero vector is a column of $n$ zeros.
+
+    \item \textbf{Matrix Space $M_{m \times n}(\mathbb{R})$:} 
+    The set of all $m \times n matrices$. Addition is the standard matrix addition (adding corresponding entries), and scalar multiplication scales every entry in the matrix. The additive identity here is the $m \times n$ zero matrix, consisting entirely of zeros.
+
+    \item \textbf{Polynomial Space $P_n(\mathbb{R})$:} 
+    The space of all polynomials of degree $\le n$. The elements look like $p(x) = a_0 + a_1x + \dots + a_nx^n$. It is defined with the operations:
+    \[
+    (f + g)(x) = f(x) + g(x) \quad \text{and} \quad (cf)(x) = c f(x) \quad (c \in \mathbb{R}).
+    \]
+    The zero vector in this space is the zero polynomial $z(x) = 0$ for all $x$. Under these operations, $P_n(\mathbb{R})$ is a valid vector space.
+\end{enumerate}
+
+\vspace{2em}
+% =========================================================================
+\subsection{Fundamental Properties Derived from the Axioms}
+\vspace{1em}
+
+\textbf{Intuition:} Because we have redefined "vectors" to be anything from matrices to functions, we cannot blindly assume that basic arithmetic works the same way it does with regular numbers. We must formally prove that things like $0 \cdot \vec{x} = \vec{0}$ are guaranteed strictly by the 10 axioms, without relying on our intuition.
+
+\vspace{1.5em}
+
+\noindent \textbf{Theorem (Elementary Arithmetic Properties of Vector Spaces):} \\[0.5em]
+Let $V$ be a vector space over $\mathbb{R}$. For all $\vec{x} \in V$ and all $t \in \mathbb{R}$:
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \item $0\vec{x} = \vec{0}$
+    \item $t\vec{0} = \vec{0}$
+    \item $(-1)\vec{x} = -\vec{x}$
+    \item If $t\vec{x} = \vec{0}$, then either $t = 0$ or $\vec{x} = \vec{0}$.
+\end{enumerate}
+
+\vspace{1em}
+
+\begin{proof}
+\textbf{Proof of (1):} In the real numbers, $0 + 0 = 0$. By scalar distributivity (Axiom 8):
+\[
+0\vec{x} = (0 + 0)\vec{x} = 0\vec{x} + 0\vec{x}.
+\]
+Since $0\vec{x} \in V$ by closure, its additive inverse $-(0\vec{x})$ must exist in $V$ (Axiom 5). Adding this inverse to both sides:
+\begin{align*}
+0\vec{x} + (-(0\vec{x})) &= (0\vec{x} + 0\vec{x}) + (-(0\vec{x})) \\[0.5em]
+\vec{0} &= 0\vec{x} + \bigl(0\vec{x} + (-(0\vec{x}))\bigr) \quad \text{(Associativity)} \\[0.5em]
+\vec{0} &= 0\vec{x} + \vec{0} \quad \text{(Additive Inverse)} \\[0.5em]
+\vec{0} &= 0\vec{x} \quad \text{(Additive Identity)}.
+\end{align*}
+Therefore, $0\vec{x} = \vec{0}$.
+
+\vspace{1.5em}
+
+\textbf{Proof of (2):} By the additive identity axiom, $\vec{0} + \vec{0} = \vec{0}$. Multiplying by scalar $t$ and using vector distributivity (Axiom 7):
+\[
+t\vec{0} = t(\vec{0} + \vec{0}) = t\vec{0} + t\vec{0}.
+\]
+Adding $-(t\vec{0})$ to both sides and associating terms yields $t\vec{0} = \vec{0}$.
+
+\vspace{1.5em}
+
+\textbf{Proof of (3):} We show that $(-1)\vec{x}$ behaves exactly as the unique additive inverse of $\vec{x}$. We add them together:
+\[
+\vec{x} + (-1)\vec{x} = 1\vec{x} + (-1)\vec{x} = (1 + (-1))\vec{x} = 0\vec{x} = \vec{0}.
+\]
+Since adding $(-1)\vec{x}$ to $\vec{x}$ results in the zero vector, it satisfies the definition of an inverse. By uniqueness of the additive inverse in $V$, $(-1)\vec{x} = -\vec{x}$.
+
+\vspace{1.5em}
+
+\textbf{Proof of (4):} Suppose $t\vec{x} = \vec{0}$. If $t = 0$, the claim holds. If $t \neq 0$, the multiplicative inverse $t^{-1} \in \mathbb{R}$ exists. Multiplying both sides:
+\[
+t^{-1}(t\vec{x}) = t^{-1}\vec{0} \implies (t^{-1}t)\vec{x} = \vec{0} \implies 1\vec{x} = \vec{0} \implies \vec{x} = \vec{0}.
+\]
+\end{proof}
+
+\vspace{2em}
+% =========================================================================
+\subsection{Subspaces and the Subspace Test}
+\vspace{1em}
+
+\textbf{Intuition:} A subspace is simply a smaller, self-contained vector space living inside a larger one (for example, a 2D plane living inside a 3D space). 
+Instead of verifying all 10 axioms to prove a subset is a vector space, we can take a shortcut. Since the subset inherits properties like commutativity and distributivity from the parent space, we only need to check if the subset is a "closed system." If it contains the origin, and doesn't spill out of its boundaries when we add or scale elements, it is a subspace.
+
+\vspace{1.5em}
+
+\noindent\textbf{Definition (Subspace).} \\[0.5em]
+Let $V$ be a vector space over $\mathbb{R}$. A subset $U \subseteq V$ is called a \textbf{subspace} of $V$ if $U$ is itself a vector space over $\mathbb{R}$ under the addition and scalar multiplication operations inherited from $V$.
+
+\vspace{1.5em}
+
+\noindent\textbf{Theorem (Subspace Test).} \\[0.5em]
+Let $V$ be a vector space over $\mathbb{R}$. A subset $U \subseteq V$ is a subspace of $V$ if and only if:
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \item $\vec{0} \in U$, where $\vec{0}$ is the zero vector of $V$ (in particular, this proves $U \neq \emptyset$).
+    \item For all $\vec{x}, \vec{y} \in U$, $\vec{x} + \vec{y} \in U$ (\textbf{Closure under vector addition}).
+    \item For all $\alpha \in \mathbb{R}$ and $\vec{x} \in U$, $\alpha \vec{x} \in U$ (\textbf{Closure under scalar multiplication}).
+\end{enumerate}
+
+\vspace{1em}
+
+\begin{proof}
+\noindent\textbf{($\implies$)} If $U$ is a subspace, it satisfies all vector space axioms on its own. In particular, it must be closed under addition and scalar multiplication, and contain an additive identity $\vec{0}_U \in U$. 
+Since $\vec{0}_U + \vec{0}_U = \vec{0}_U$, adding the inverse $-\vec{0}_U$ computed in $V$ gives $\vec{0}_U = \vec{0}_V$.
+
+\vspace{1.5em}
+
+\noindent\textbf{($\impliedby$)} Assume conditions (1), (2), and (3) hold. Closure under addition and scalar multiplication, as well as the existence of the additive identity, are directly satisfied by the assumptions. 
+For any $\vec{x} \in U$, setting $\alpha = -1$ ensures that $-\vec{x} = (-1)\vec{x} \in U$.
+The remaining algebraic axioms (commutativity, associativity, and distributivity) hold for all elements in $U$ automatically because they hold throughout the larger space $V$. Thus, $U$ is a valid vector space.
+\end{proof}
+
+\vspace{2em}
+% =========================================================================
+\subsection*{Worked Examples: Subspace Analysis}
+\vspace{1em}
+
+\noindent\textbf{Example 1 (Polynomial with Root Constraint).} \\[0.5em]
+Let $V = P_2(\mathbb{R})$. Define the subset:
+\[ 
+U = \{p(x) \in P_2(\mathbb{R}) \mid p(3) = 0\}.
+\]
+Prove that $U$ is a subspace of $P_2(\mathbb{R})$.
+
+\vspace{1em}
+
+\begin{proof}
+We test the three conditions of the Subspace Test systematically:
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \item \textbf{Zero Vector:} The zero polynomial in $P_2(\mathbb{R})$ is $z(x) = 0 + 0x + 0x^2$. Evaluating at $x = 3$ gives $z(3) = 0$. Because it satisfies the condition $p(3)=0$, we conclude $z \in U$.
+    \item \textbf{Closure under Addition:} Let $p(x), q(x) \in U$. By definition, this means $p(3) = 0$ and $q(3) = 0$. Consider their sum evaluated at $x = 3$:
+    \[
+    (p + q)(3) = p(3) + q(3) = 0 + 0 = 0.
+    \]
+    Since the sum evaluated at 3 is zero, $p + q \in U$.
+    \item \textbf{Closure under Scalar Multiplication:} Let $p(x) \in U$ and $\alpha \in \mathbb{R}$. Then:
+    \[
+    (\alpha p)(3) = \alpha \cdot p(3) = \alpha(0) = 0.
+    \]
+    Thus, $\alpha p \in U$.
+\end{enumerate}
+By the Subspace Test, all conditions hold, so $U$ is a subspace of $P_2(\mathbb{R})$.
+\end{proof}
+
+\vspace{2em}
+
+\noindent\textbf{Example 2 (Traceless Matrices).} \\[0.5em]
+Let $V = M_{2\times 2}(\mathbb{R})$. Define:
+\[
+W = \{ A \in M_{2\times 2}(\mathbb{R}) \mid \operatorname{tr}(A) = 0 \}.
+\]
+Recall that for $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$, the trace is the sum of the main diagonal $\operatorname{tr}(A) = a + d$. Show that $W$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
+
+\vspace{1em}
+
+\begin{proof}
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \item \textbf{Zero Vector:} The zero matrix $O_{2\times 2} = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}$ satisfies $\operatorname{tr}(O_{2\times 2}) = 0 + 0 = 0$. Hence, $O_{2\times 2} \in W$.
+    \item \textbf{Closure under Addition:} Let $A, B \in W$, meaning $\operatorname{tr}(A) = 0$ and $\operatorname{tr}(B) = 0$. Because the trace operator is linear over matrix addition:
+    \[
+    \operatorname{tr}(A + B) = \operatorname{tr}(A) + \operatorname{tr}(B) = 0 + 0 = 0.
+    \]
+    Hence, $A + B \in W$.
+    \item \textbf{Closure under Scalar Multiplication:} Let $A \in W$ and $\alpha \in \mathbb{R}$. Again, trace is linear over scalar multiplication:
+    \[
+    \operatorname{tr}(\alpha A) = \alpha \operatorname{tr}(A) = \alpha(0) = 0.
+    \]
+    Hence, $\alpha A \in W$.
+\end{enumerate}
+Thus, $W$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
+\end{proof}
+
+\vspace{2em}
+
+\noindent\textbf{Example 3 (Affine Coefficient Failure).} \\[0.5em]
+Let $V = P_2(\mathbb{R})$ and consider the subset:
+\[
+S = \{ p(x) = ax^2 + bx + c \in P_2(\mathbb{R}) \mid a - 2b + c = 3 \}.
+\]
+Determine whether $S$ is a subspace of $V$.
+
+\vspace{1.5em}
+
+\noindent\textbf{Solution:} \\[0.5em]
+We always check the zero vector first. The zero polynomial $z(x) = 0x^2 + 0x + 0$ has coefficients $a = 0, b = 0, c = 0$. Evaluating the subset's defining equation with these coefficients:
+\[
+a - 2b + c = 0 - 2(0) + 0 = 0 \neq 3.
+\]
+Because the zero polynomial does not satisfy the condition, it is not in $S$. Condition (1) of the Subspace Test fails immediately. A subspace \textit{must} always contain the zero vector. 
+
+Geometrically, in the "space" of coefficients, this represents a plane that has been shifted away from the origin by 3 units. Thus, $S$ is \textbf{not} a subspace of $P_2(\mathbb{R})$.
+
+\vspace{2em}
+
+\noindent\textbf{Example 4 (A Plane Through the Origin in $\mathbb{R}^3$).} \\[0.5em]
+Let $V = \mathbb{R}^3$. Consider the subset $U$ representing a plane passing through the origin:
+\[
+U = \left\{ \begin{bmatrix} x \\ y \\ z \end{bmatrix} \in \mathbb{R}^3 \mathrel{\Bigg|} x - 2y + 3z = 0 \right\}
+\]
+Prove that $U$ is a subspace of $\mathbb{R}^3$.
+
+\vspace{1em}
+
+\begin{proof}
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \item \textbf{Zero Vector:} The zero vector $\vec{0} = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}$. Evaluating the condition: $0 - 2(0) + 3(0) = 0$. Thus, $\vec{0} \in U$.
+    \item \textbf{Closure under Addition:} Let $\vec{u} = \begin{bmatrix} x_1 \\ y_1 \\ z_1 \end{bmatrix}$ and $\vec{v} = \begin{bmatrix} x_2 \\ y_2 \\ z_2 \end{bmatrix}$ be in $U$. This implies $x_1 - 2y_1 + 3z_1 = 0$ and $x_2 - 2y_2 + 3z_2 = 0$. 
+    
+    Consider their sum $\vec{u} + \vec{v} = \begin{bmatrix} x_1 + x_2 \\ y_1 + y_2 \\ z_1 + z_2 \end{bmatrix}$. We test the condition:
+    \[
+    (x_1 + x_2) - 2(y_1 + y_2) + 3(z_1 + z_2) = (x_1 - 2y_1 + 3z_1) + (x_2 - 2y_2 + 3z_2) = 0 + 0 = 0.
+    \]
+    Thus, $\vec{u} + \vec{v} \in U$.
+    \item \textbf{Closure under Scalar Multiplication:} Let $\vec{u} \in U$ and $\alpha \in \mathbb{R}$. The scaled vector is $\alpha\vec{u} = \begin{bmatrix} \alpha x_1 \\ \alpha y_1 \\ \alpha z_1 \end{bmatrix}$. Testing the condition:
+    \[
+    (\alpha x_1) - 2(\alpha y_1) + 3(\alpha z_1) = \alpha(x_1 - 2y_1 + 3z_1) = \alpha(0) = 0.
+    \]
+    Thus, $\alpha\vec{u} \in U$.
+\end{enumerate}
+Since it passes the Subspace Test, the plane $U$ is a subspace of $\mathbb{R}^3$.
+\end{proof}

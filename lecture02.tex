@@ -1,0 +1,214 @@
+\section{Lecture 2: Span and Linear Independence}
+
+% Increases line spacing within matrices and arrays globally for this section
+\renewcommand{\arraystretch}{1.4} 
+\vspace{1em}
+
+\textbf{Intuition:} If we treat vectors like directional building blocks, the "Span" is the set of absolutely everywhere you can possibly reach by combining them. "Linear Independence" means there is no redundancy in your building blocks; no vector in the set can be created by mixing the others. If a set spans a space and is linearly independent, it forms a perfect, highly efficient coordinate system for that space.
+
+\vspace{2em}
+% =========================================================================
+\subsection{Linear Span and Minimal Subspaces}
+\vspace{1em}
+
+\noindent\textbf{Definition (Linear Combination and Span).} \\[0.5em]
+Let $V$ be a vector space over $\mathbb{R}$ and let $S = \{\vec{v}_1, \dots, \vec{v}_k\} \subseteq V$. 
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \item An expression of the form $c_1\vec{v}_1 + \dots + c_k\vec{v}_k$ with $c_i \in \mathbb{R}$ is called a \textbf{linear combination} of the vectors in $S$.
+    \item The \textbf{span} of $S$, denoted $\operatorname{Span}(S)$, is the set of all possible linear combinations:
+    \[
+    \operatorname{Span}(S) = \{ c_1\vec{v}_1 + \dots + c_k\vec{v}_k \mid c_1, \dots, c_k \in \mathbb{R} \}.
+    \]
+    If $S = \emptyset$, we define $\operatorname{Span}(\emptyset) = \{\vec{0}\}$.
+\end{enumerate}
+
+\vspace{1.5em}
+
+\noindent\textbf{Theorem: (Span is a Subspace).} \\[0.5em]
+Let $V$ be a vector space over $\mathbb{R}$ and let $S = \{\vec{v}_1, \dots, \vec{v}_k\} \subseteq V$. Then $\operatorname{Span}(S)$ is a subspace of $V$.
+
+\vspace{1em}
+
+\begin{proof}
+We verify the three conditions:
+\begin{enumerate}[itemsep=1.5em, topsep=1em]
+    \item \textbf{Zero Vector:} Choosing $c_1 = \dots = c_k = 0$, we have $\vec{0} = 0\vec{v}_1 + \dots + 0\vec{v}_k \in \operatorname{Span}(S)$.
+    \item \textbf{Closure under Addition:} Let $\vec{x}, \vec{y} \in \operatorname{Span}(S)$. There exist scalars $c_i, d_i \in \mathbb{R}$ such that:
+    \[
+    \vec{x} = \sum_{i=1}^k c_i\vec{v}_i \quad \text{and} \quad \vec{y} = \sum_{i=1}^k d_i\vec{v}_i.
+    \]
+    Adding these vectors and applying distributivity:
+    \[
+    \vec{x} + \vec{y} = \sum_{i=1}^k c_i\vec{v}_i + \sum_{i=1}^k d_i\vec{v}_i = \sum_{i=1}^k (c_i + d_i)\vec{v}_i.
+    \]
+    Since each $c_i + d_i \in \mathbb{R}$, $\vec{x} + \vec{y} \in \operatorname{Span}(S)$.
+    \item \textbf{Closure under Scalar Multiplication:} For any scalar $\alpha \in \mathbb{R}$:
+    \[
+    \alpha \vec{x} = \alpha \left( \sum_{i=1}^k c_i\vec{v}_i \right) = \sum_{i=1}^k (\alpha c_i)\vec{v}_i.
+    \]
+    Since each $\alpha c_i \in \mathbb{R}$, $\alpha \vec{x} \in \operatorname{Span}(S)$.
+\end{enumerate}
+\end{proof}
+
+\vspace{2em}
+% =========================================================================
+\subsection*{Worked Examples: Proving a Span}
+\vspace{1em}
+
+\textbf{Intuition for proving a span:} To prove that a set of vectors $S$ spans an entire vector space $V$, you must show that an \textit{arbitrary} (generic) vector in $V$ can always be built using a linear combination of the vectors in $S$. This always reduces to proving that a system of linear equations is consistent (has a solution) for any possible inputs.
+
+\vspace{1.5em}
+
+\noindent\textbf{Example 1 (Spanning $\mathbb{R}^2$).} \\[0.5em]
+Determine whether the set $S = \left\{ \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \begin{bmatrix} 1 \\ -1 \end{bmatrix} \right\}$ spans $\mathbb{R}^2$.
+
+\vspace{1em}
+
+\begin{proof}[Solution]
+Let $\vec{w} = \begin{bmatrix} x \\ y \end{bmatrix}$ be an arbitrary vector in $\mathbb{R}^2$. We must determine if there always exist scalars $c_1, c_2 \in \mathbb{R}$ such that:
+\[
+c_1 \begin{bmatrix} 1 \\ 1 \end{bmatrix} + c_2 \begin{bmatrix} 1 \\ -1 \end{bmatrix} = \begin{bmatrix} x \\ y \end{bmatrix}
+\]
+This vector equation produces a system of two linear equations:
+\begin{align*}
+c_1 + c_2 &= x \quad \text{(Equation 1)} \\[0.5em]
+c_1 - c_2 &= y \quad \text{(Equation 2)}
+\end{align*}
+We solve for $c_1$ and $c_2$ in terms of $x$ and $y$. Adding the two equations directly eliminates $c_2$:
+\[
+(c_1 + c_2) + (c_1 - c_2) = x + y \implies 2c_1 = x + y \implies c_1 = \frac{x+y}{2}
+\]
+Subtracting Equation 2 from Equation 1 eliminates $c_1$:
+\[
+(c_1 + c_2) - (c_1 - c_2) = x - y \implies 2c_2 = x - y \implies c_2 = \frac{x-y}{2}
+\]
+Because we can find explicit, real values for $c_1$ and $c_2$ regardless of what $x$ and $y$ are, every vector in $\mathbb{R}^2$ can be constructed. Therefore, $S$ spans $\mathbb{R}^2$.
+\end{proof}
+
+\vspace{2em}
+% =========================================================================
+\subsection{Linear Independence and Unique Representation}
+\vspace{1em}
+
+\noindent\textbf{Definition (Linear Dependence and Independence).} \\[0.5em]
+Let $V$ be a vector space over $\mathbb{R}$ and let $S = \{\vec{v}_1, \dots, \vec{v}_k\} \subseteq V$.
+\begin{itemize}[itemsep=1.5em, topsep=1em]
+    \item The set $S$ is \textbf{linearly dependent} if there exist scalars $c_1, \dots, c_k \in \mathbb{R}$, \textbf{not all zero}, such that:
+    \[
+    c_1 \vec{v}_1 + c_2 \vec{v}_2 + \dots + c_k \vec{v}_k = \vec{0}.
+    \]
+    \item The set $S$ is \textbf{linearly independent} if the only solution to
+    \[
+    c_1 \vec{v}_1 + c_2 \vec{v}_2 + \dots + c_k \vec{v}_k = \vec{0}
+    \]
+    is the trivial solution: $c_1 = c_2 = \dots = c_k = 0$.
+\end{itemize}
+
+\vspace{2em}
+% =========================================================================
+\subsection*{Worked Examples: Checking Linear Independence}
+\vspace{1em}
+
+\textbf{Intuition for testing independence:} To test for linear independence, we always set a generic linear combination of the set equal to the zero vector. We then solve for the coefficients $c_i$. 
+\begin{itemize}[itemsep=1.5em, topsep=1em]
+    \item If we get a unique solution ($c_1=c_2=\dots=0$), the set is \textbf{independent}.
+    \item If we get free variables (meaning infinitely many non-zero solutions exist), the set is \textbf{dependent}, and one vector is just a combination of the others.
+\end{itemize}
+
+\vspace{1.5em}
+
+\noindent\textbf{Example 2 (Linear Dependence in $\mathbb{R}^3$).} \\[0.5em]
+Determine whether the set $S = \left\{ \begin{bmatrix} 1 \\ 2 \\ 1 \end{bmatrix}, \begin{bmatrix} 2 \\ 5 \\ 0 \end{bmatrix}, \begin{bmatrix} 3 \\ 7 \\ 1 \end{bmatrix} \right\}$ is linearly independent.
+
+\vspace{1em}
+
+\begin{proof}[Solution]
+We set up the dependence equation:
+\[
+c_1 \begin{bmatrix} 1 \\ 2 \\ 1 \end{bmatrix} + c_2 \begin{bmatrix} 2 \\ 5 \\ 0 \end{bmatrix} + c_3 \begin{bmatrix} 3 \\ 7 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}
+\]
+We translate this vector equation into an augmented matrix and row reduce:
+\[
+\left(\begin{array}{ccc|c} 
+1 & 2 & 3 & 0 \\ 
+2 & 5 & 7 & 0 \\ 
+1 & 0 & 1 & 0 
+\end{array}\right)
+\xrightarrow{\substack{R_2 \leftarrow R_2 - 2R_1 \\ R_3 \leftarrow R_3 - R_1}}
+\left(\begin{array}{ccc|c} 
+1 & 2 & 3 & 0 \\ 
+0 & 1 & 1 & 0 \\ 
+0 & -2 & -2 & 0 
+\end{array}\right)
+\xrightarrow{R_3 \leftarrow R_3 + 2R_2}
+\left(\begin{array}{ccc|c} 
+1 & 2 & 3 & 0 \\ 
+0 & 1 & 1 & 0 \\ 
+0 & 0 & 0 & 0 
+\end{array}\right)
+\]
+Because the third column lacks a leading 1 (a pivot), $c_3$ is a free variable. This means there are infinitely many non-zero solutions. 
+For instance, if we let the free variable $c_3 = -1$, then from the second row ($c_2 + c_3 = 0$) we get $c_2 = 1$. 
+From the first row ($c_1 + 2c_2 + 3c_3 = 0$), we get $c_1 + 2(1) + 3(-1) = 0 \implies c_1 = 1$.
+Since $1\vec{v}_1 + 1\vec{v}_2 - 1\vec{v}_3 = \vec{0}$ (a non-trivial combination equals zero), the set is \textbf{linearly dependent}.
+\end{proof}
+
+\vspace{1.5em}
+
+\noindent\textbf{Example 3 (Linear Independence in Polynomial Space).} \\[0.5em]
+Determine whether the set of polynomials $S = \{1+x, x+x^2, 1+x^2\}$ is linearly independent in $P_2(\mathbb{R})$.
+
+\vspace{1em}
+
+\begin{proof}[Solution]
+Set a linear combination of the polynomials equal to the zero polynomial:
+\[
+c_1(1+x) + c_2(x+x^2) + c_3(1+x^2) = 0 + 0x + 0x^2
+\]
+Distribute the scalars and group the terms by powers of $x$:
+\[
+(c_1 + c_3) + (c_1 + c_2)x + (c_2 + c_3)x^2 = 0 + 0x + 0x^2
+\]
+For polynomials to be identically equal, their corresponding coefficients must match. This gives a system of three equations:
+\begin{align*}
+c_1 + c_3 &= 0 \quad \text{(Constants)} \\[0.5em]
+c_1 + c_2 &= 0 \quad \text{($x$ coefficients)} \\[0.5em]
+c_2 + c_3 &= 0 \quad \text{($x^2$ coefficients)}
+\end{align*}
+From the first equation, $c_3 = -c_1$. From the second equation, $c_2 = -c_1$. 
+Substitute these into the third equation:
+\[
+(-c_1) + (-c_1) = 0 \implies -2c_1 = 0 \implies c_1 = 0.
+\]
+If $c_1 = 0$, then $c_2 = 0$ and $c_3 = 0$. Because the trivial solution is the unique solution to the system, the set of polynomials is \textbf{linearly independent}.
+\end{proof}
+
+\vspace{2em}
+% =========================================================================
+\subsection{The Importance of Independence}
+\vspace{1em}
+
+\noindent\textbf{Theorem (Unique Representation Theorem).} \\[0.5em]
+Let $V$ be a vector space over $\mathbb{R}$ and let $S = \{\vec{v}_1, \dots, \vec{v}_k\} \subseteq V$ be a spanning set for $V$. Then every vector in $V$ can be uniquely expressed as a linear combination of the vectors in $S$ if and only if $S$ is linearly independent.
+
+\vspace{1em}
+
+\begin{proof}
+$(\implies)$ Suppose every vector has a unique representation. Since $\vec{0} \in V$, it can be written as:
+\[
+0\vec{v}_1 + \dots + 0\vec{v}_k = \vec{0}.
+\]
+Suppose there exist scalars $c_1, \dots, c_k$ such that $\sum_{i=1}^k c_i \vec{v}_i = \vec{0}$. By uniqueness of representation for $\vec{0}$, we must have $c_1 = \dots = c_k = 0$. Hence, $S$ is linearly independent.
+
+\vspace{1.5em}
+
+$(\impliedby)$ Suppose $S$ is linearly independent. Let $\vec{v} \in V$. Because $S$ spans $V$, there exists at least one representation $\vec{v} = \sum_{i=1}^k c_i \vec{v}_i$. Suppose there exists another representation $\vec{v} = \sum_{i=1}^k d_i \vec{v}_i$. Subtracting the two gives:
+\[
+\sum_{i=1}^k c_i \vec{v}_i - \sum_{i=1}^k d_i \vec{v}_i = \vec{0} \implies \sum_{i=1}^k (c_i - d_i)\vec{v}_i = \vec{0}.
+\]
+Because $S$ is linearly independent, every scalar coefficient attached to the vectors must be exactly zero:
+\[
+c_i - d_i = 0 \implies c_i = d_i \quad \text{for all } i = 1, \dots, k.
+\]
+Because the coefficients must be identical, the linear combination is unique.
+\end{proof}
