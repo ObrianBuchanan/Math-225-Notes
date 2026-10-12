@@ -1,0 +1,55 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{tcolorbox} % Added to make "Intuition" and "Formulas" stand out
+\usepackage[hidelinks]{hyperref} % hidelinks makes TOC clickable but keeps text normal color
+
+% Global list spacing for readability
+\setlist{nosep, leftmargin=1.5em, itemsep=0.8em, topsep=0.5em}
+
+% Clean, professional header formatting
+\titleformat{\section}{\Large\bfseries\color{black}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{black}}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{black}}{}{0em}{}
+
+% Custom environments for studying
+\newtcolorbox{intuition}{colback=gray!5!white,colframe=gray!50!black,title=\textbf{Intuition \& Concepts}}
+\newtcolorbox{formula}{colback=blue!5!white,colframe=blue!50!black,title=\textbf{Core Formula / Checklist}}
+
+\begin{document}
+
+% Standalone Centered Title Page
+\begin{titlepage}
+    \vspace*{\fill}
+    \begin{center}
+        {\Huge\bfseries MATH 225 -- Applied Linear Algebra II\par}
+        \vspace{0.5cm}
+        {\LARGE Course Notes\par}
+        \vspace{0.3cm}
+        {\Large Obrian Buchanan\par}
+        \vspace{0.3cm}
+        {\large University of Waterloo\par}
+        \vspace{0.3cm}
+        {\large Fall 2026\par}
+    \end{center}
+    \vspace*{\fill}
+\end{titlepage}
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+% Lecture Inclusions
+\input{lecture01.tex}
+\newpage
+\input{lecture02.tex}
+\newpage
+\input{lecture03.tex}
+
+\end{document}
