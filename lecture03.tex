@@ -1,321 +1,503 @@
 \section{Lecture 3: Bases, Dimension, and Expansion}
 
-% Increases line spacing within matrices and arrays globally for this section
-\renewcommand{\arraystretch}{1.4} 
-\vspace{1em}
+\begin{intuition}
+A basis is the perfect skeleton of a vector space. It is a set of vectors that spans the entire space (so you can reach absolutely everywhere) but is also linearly independent (so there is absolutely no redundancy in your coordinates). Because of these two properties, a basis provides a perfect, unique coordinate system for any space, ensuring every single vector has exactly one ``address.''
+\end{intuition}
 
-\textbf{Intuition:} A basis is the perfect skeleton of a vector space. It is a set of vectors that spans the entire space (so you can reach absolutely everywhere) but is also linearly independent (so there is absolutely no redundancy in your coordinates). Because of these two properties, a basis provides a perfect, unique coordinate system for any space, ensuring every single vector has exactly one "address."
-
-\vspace{2em}
 % =========================================================================
-\subsection{Bases and Standard Bases}
-\vspace{1em}
+\subsection{Bases}
 
-\noindent\textbf{Definition (Basis).} \\[0.5em]
+\begin{definition}[Basis]
 Let $V$ be a vector space. A subset $\mathcal{B} = \{\vec{v}_1, \dots, \vec{v}_k\} \subseteq V$ is called a \textbf{basis} for $V$ if it satisfies two conditions:
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item $\mathcal{B}$ is linearly independent (no redundant vectors).
+\begin{enumerate}
+    \item $\mathcal{B}$ is linearly independent (no redundant vectors), and
     \item $\operatorname{Span}(\mathcal{B}) = V$ (enough vectors to build the whole space).
 \end{enumerate}
-\vspace{0.5em}
-\textit{Convention:} The basis for the trivial subspace $\{\vec{0}\}$ is the empty set $\emptyset$.
+\emph{Convention:} the basis for the trivial subspace $\{\vec{0}\}$ is the empty set $\emptyset$.
+\end{definition}
 
-\vspace{1.5em}
+\begin{remark}
+By the Unique Representation Theorem from Lecture 2, a basis is exactly a set where every vector of $V$ can be built in \emph{one and only one} way. Spanning gives ``at least one way,'' independence gives ``at most one way.''
+\end{remark}
 
-\noindent\textbf{Standard Bases for Canonical Spaces} \\[0.5em]
-Just like the $x, y, z$ axes in geometry, our abstract vector spaces have "standard" bases that are the simplest to work with:
-\begin{itemize}[itemsep=1.5em, topsep=1em]
-    \item \textbf{Euclidean Space $\mathbb{R}^3$:} The standard basis consists of the unit coordinate vectors:
+\begin{example}[Basis or Not?]
+Decide whether each set is a basis for $\mathbb{R}^2$:
+\[
+S = \left\{ \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \begin{bmatrix} 1 \\ -1 \end{bmatrix} \right\},
+\qquad
+T = \left\{ \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \begin{bmatrix} -1 \\ 2 \end{bmatrix}, \begin{bmatrix} 2 \\ 3 \end{bmatrix} \right\}.
+\]
+
+\begin{solution}
+\textbf{The set $S$.} In Lecture 2 we showed $S$ spans $\mathbb{R}^2$, and neither vector is a multiple of the other, so $S$ is independent. Both conditions hold, so $S$ \textbf{is} a basis.
+
+\textbf{The set $T$.} $T$ spans $\mathbb{R}^2$ (the first two vectors alone already do), but it is dependent:
+\[
+7\begin{bmatrix} 1 \\ 0 \end{bmatrix} + 3\begin{bmatrix} -1 \\ 2 \end{bmatrix} - 2\begin{bmatrix} 2 \\ 3 \end{bmatrix} = \begin{bmatrix} 7 - 3 - 4 \\ 0 + 6 - 6 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}.
+\]
+So $T$ is \textbf{not} a basis. Spanning on its own is not enough; there is a redundant vector.
+\end{solution}
+\end{example}
+
+\subsubsection{Standard Bases}
+
+Just like the $x, y, z$ axes in geometry, our standard vector spaces have ``standard'' bases that are the simplest to work with.
+
+\begin{definition}[Standard Basis]
+\begin{itemize}
+    \item \textbf{$\mathbb{R}^n$:} let $\vec{e}_i$ be the vector with a $1$ in entry $i$ and $0$ everywhere else. The standard basis is $\{\vec{e}_1, \dots, \vec{e}_n\}$. For example, in $\mathbb{R}^3$:
     \[
-    \mathcal{B} = \{ \vec{e}_1, \vec{e}_2, \vec{e}_3 \} = \left\{ \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}, \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} \right\}.
+    \{\vec{e}_1, \vec{e}_2, \vec{e}_3\} = \left\{ \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}, \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} \right\}.
     \]
-    
-    \item \textbf{Matrix Space $M_{2\times 2}(\mathbb{R})$:} The standard basis consists of single-entry unit matrices, one for each position:
+    \item \textbf{$P_n(\mathbb{R})$:} the monomial basis $\{1, x, x^2, \dots, x^n\}$.
+    \item \textbf{$M_{m \times n}(\mathbb{R})$:} let $E_{ij}$ be the matrix with a $1$ in position $(i, j)$ and $0$ everywhere else. The standard basis is $\{E_{ij} \mid 1 \le i \le m, \ 1 \le j \le n\}$. For example, in $M_{2 \times 2}(\mathbb{R})$:
     \[
-    \mathcal{B} = \left\{ 
-    \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}, 
-    \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix}, 
-    \begin{bmatrix} 0 & 0 \\ 1 & 0 \end{bmatrix}, 
-    \begin{bmatrix} 0 & 0 \\ 0 & 1 \end{bmatrix} 
-    \right\} = \{E_{11}, E_{12}, E_{21}, E_{22}\}.
+    \{E_{11}, E_{12}, E_{21}, E_{22}\} = \left\{
+    \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix},
+    \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix},
+    \begin{bmatrix} 0 & 0 \\ 1 & 0 \end{bmatrix},
+    \begin{bmatrix} 0 & 0 \\ 0 & 1 \end{bmatrix}
+    \right\}.
     \]
-    
-    \item \textbf{Polynomial Space $P_2(\mathbb{R})$:} The standard basis is the monomial basis, separating the constant, linear, and quadratic terms: $\mathcal{B} = \{1, x, x^2\}$.
 \end{itemize}
+\end{definition}
 
-\vspace{1.5em}
+\begin{example}[Writing Vectors in a Standard Basis]
+Write each vector as a linear combination of the standard basis of its space:
+\[
+\vec{x} = \begin{bmatrix} 4 \\ -1 \\ 7 \end{bmatrix},
+\qquad
+p(x) = 4 - x + 2x^3,
+\qquad
+A = \begin{bmatrix} 3 & -1 \\ 0 & 5 \end{bmatrix}.
+\]
 
-\begin{proof}[Verification that $\{1, x, x^2\}$ is a Basis for $P_2(\mathbb{R})$]
+\begin{solution}
+With the standard basis, the coefficients are just the entries (or coefficients) you can already see:
+\begin{align*}
+\vec{x} &= 4\vec{e}_1 - 1\vec{e}_2 + 7\vec{e}_3, \\
+p(x)    &= 4(1) - 1(x) + 0(x^2) + 2(x^3), \\
+A       &= 3E_{11} - 1E_{12} + 0E_{21} + 5E_{22}.
+\end{align*}
+This is why standard bases are ``standard'': reading off the coefficients takes no work.
+\end{solution}
+\end{example}
+
+\begin{example}[Verifying That $\{1, x, x^2\}$ Is a Basis for $P_2(\mathbb{R})$]
+Prove directly from the definition that $\{1, x, x^2\}$ is a basis for $P_2(\mathbb{R})$.
+
+\begin{solution}
 To rigorously prove this is a basis, we must check both criteria in the definition.
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item \textbf{Spanning:} Let $p(x) \in P_2(\mathbb{R})$ be an arbitrary polynomial. By definition, it has the form $p(x) = a + bx + cx^2$ where $a, b, c \in \mathbb{R}$. We can write this exactly as a linear combination of our basis elements:
-    \[
-    p(x) = a(1) + b(x) + c(x^2).
-    \]
-    Since any $p(x)$ can be constructed this way, the set spans the space: $P_2(\mathbb{R}) = \operatorname{Span}\{1, x, x^2\}$.
-    
-    \item \textbf{Linear Independence:} Suppose a linear combination equals the zero polynomial, $0(x)$, which evaluates to $0$ for all $x \in \mathbb{R}$:
-    \[ c_1(1) + c_2(x) + c_3(x^2) = 0(x) \]
-    Because this equation is an identity (it must hold true for \textit{any} real number $x$), we can strategically plug in values for $x$ to solve for the coefficients.
-    
-    Evaluating at $x = 0$ kills the $x$ and $x^2$ terms, giving $c_1 = 0$. 
-    
-    Evaluating at $x = 1$ and $x = -1$ yields a small system:
-    \[
-    c_2 + c_3 = 0 \quad \text{and} \quad -c_2 + c_3 = 0 \implies 2c_3 = 0 \implies c_3 = 0.
-    \]
-    Substituting $c_3 = 0$ back in gives $c_2 = 0$.
-    
-    Thus, $c_1 = c_2 = c_3 = 0$. Because the trivial solution is the only solution, $\{1, x, x^2\}$ is linearly independent.
-\end{enumerate}
-\vspace{0.5em}
+
+\textbf{Spanning.} Let $p(x) \in P_2(\mathbb{R})$ be an arbitrary polynomial. By definition, it has the form $p(x) = a + bx + cx^2$ where $a, b, c \in \mathbb{R}$. We can write this exactly as a linear combination of our basis elements:
+\[
+p(x) = a(1) + b(x) + c(x^2).
+\]
+Since any $p(x)$ can be constructed this way, $P_2(\mathbb{R}) = \operatorname{Span}\{1, x, x^2\}$.
+
+\textbf{Linear independence.} Suppose a linear combination equals the zero polynomial, which evaluates to $0$ for every $x \in \mathbb{R}$:
+\[
+c_1(1) + c_2(x) + c_3(x^2) = 0 \qquad \text{for all } x.
+\]
+Because this equation is an identity (it must hold for \emph{any} real number $x$), we can strategically plug in values of $x$:
+\begin{alignat*}{2}
+x = 0: &\quad c_1 = 0 &\qquad& \by{kills the $x$ and $x^2$ terms} \\
+x = 1: &\quad c_2 + c_3 = 0 && \\
+x = -1: &\quad -c_2 + c_3 = 0 &&
+\end{alignat*}
+Adding the last two equations gives $2c_3 = 0$, so $c_3 = 0$, and then $c_2 = 0$. The trivial solution is the only solution, so $\{1, x, x^2\}$ is linearly independent.
+
 Because $\{1, x, x^2\}$ spans $P_2(\mathbb{R})$ and is linearly independent, it is a basis for $P_2(\mathbb{R})$.
-\end{proof}
+\end{solution}
+\end{example}
 
-\vspace{2em}
+% =========================================================================
+\subsection{Finding a Basis for a Span}
 
-\noindent \textbf{Theorem (Removing Redundant Vectors):} \\[0.5em]
-Let $V$ be a non-empty vector space and suppose $\vec{v}_1, \dots, \vec{v}_k \in V$. If a vector $\vec{v}_i$ is a linear combination of the others, it is essentially "dead weight." Removing it does not alter the span of the set:
-\[ 
+\begin{theorem}[Removing Redundant Vectors]\label{thm:L3-remove}
+Let $\vec{v}_1, \dots, \vec{v}_k \in V$. If a vector $\vec{v}_i$ is a linear combination of the others, it is essentially ``dead weight.'' Removing it does not alter the span:
+\[
 \operatorname{Span}\{\vec{v}_1, \dots, \vec{v}_k\}
 =
 \operatorname{Span}\{\vec{v}_1, \dots, \vec{v}_{i-1}, \vec{v}_{i+1}, \dots, \vec{v}_k\}.
 \]
+\end{theorem}
 
-\vspace{2em}
-% =========================================================================
-\subsection*{Worked Examples: Finding a Basis}
-\vspace{1em}
+\begin{proof}
+Call the left span $W$ and the right span $W'$. Every combination of the smaller set is also a combination of the bigger set (just give $\vec{v}_i$ the coefficient $0$), so $W' \subseteq W$.
 
-\noindent\textbf{Example 1:} \\[0.5em]
-Let $U = \operatorname{Span}\left\{
+For the other direction, write $\vec{v}_i = \sum_{j \neq i} a_j\vec{v}_j$, and take any $\vec{w} = \sum_{j=1}^k c_j\vec{v}_j \in W$. Substituting for $\vec{v}_i$:
+\[
+\vec{w} = \sum_{j \neq i} c_j\vec{v}_j + c_i \sum_{j \neq i} a_j\vec{v}_j = \sum_{j \neq i} (c_j + c_i a_j)\vec{v}_j,
+\]
+which is a combination of the vectors without $\vec{v}_i$. So $W \subseteq W'$, and $W = W'$.
+\end{proof}
+
+So to get a basis for $\operatorname{Span}(S)$, we keep throwing away redundant vectors until the set is independent. Row reduction does this in one go.
+
+\begin{formula}[How to Find a Basis for $\operatorname{Span}\{\vec{v}_1, \dots, \vec{v}_k\}$]
+\begin{enumerate}
+    \item Set up $c_1\vec{v}_1 + \dots + c_k\vec{v}_k = \vec{0}$ and write the coefficient matrix (for vectors in $\mathbb{R}^n$, the columns are just the vectors).
+    \item Row reduce to REF (or RREF).
+    \item The \textbf{original} vectors that correspond to the pivot columns form a basis. The non-pivot columns are redundant.
+\end{enumerate}
+\end{formula}
+
+\begin{remark}
+Why does this work? Row operations change the rows, but they never change which linear relations hold between the \emph{columns}. So if column 4 of the RREF equals column 1 plus column 3, the same relation holds between the original vectors. Always take the basis vectors from the \emph{original} set, never from the reduced matrix.
+\end{remark}
+
+\begin{example}[A Basis for a Span in $\mathbb{R}^4$]
+Let
+\[
+U = \operatorname{Span}\left\{
 \begin{bmatrix} 1 \\ 1 \\ -1 \\ 3 \end{bmatrix},
 \begin{bmatrix} -2 \\ -2 \\ 2 \\ -6 \end{bmatrix},
 \begin{bmatrix} 2 \\ 1 \\ 1 \\ 2 \end{bmatrix},
 \begin{bmatrix} 3 \\ 2 \\ 0 \\ 5 \end{bmatrix}
-\right\}$. Find a basis for $U$.
+\right\}.
+\]
+Find a basis for $U$ and $\dim(U)$.
 
-\vspace{1em}
-
-\begin{proof}[Solution]
-To find a basis, we must filter out the redundant vectors. We first form a matrix whose columns are the given vectors. By row reducing this matrix, we track the dependencies between the columns.
-\[
+\begin{solution}
+To find a basis, we must filter out the redundant vectors. We form the matrix whose columns are the given vectors and row reduce it, which tracks the dependencies between the columns. First we use the leading $1$ in column 1 to clear everything below it. Column 2 then has no pivot, so the next pivot is in column 3:
+\begin{align*}
 \begin{bmatrix}
  1 & -2 & 2 & 3 \\
  1 & -2 & 1 & 2 \\
 -1 &  2 & 1 & 0 \\
  3 & -6 & 2 & 5
 \end{bmatrix}
-\]
-
-We perform row reduction to find an REF (and its reduced form, RREF). First, we use the leading $1$ in the first column to eliminate all entries below it:
-\[
-\xrightarrow{\substack{R_2 \leftarrow R_2 - R_1 \\ R_3 \leftarrow R_3 + R_1 \\ R_4 \leftarrow R_4 - 3R_1}}
+&\xrightarrow[R_4 - 3R_1]{R_2 - R_1,\ R_3 + R_1}
 \begin{bmatrix}
 1 & -2 &  2 &  3 \\
 0 &  0 & -1 & -1 \\
 0 &  0 &  3 &  3 \\
 0 &  0 & -4 & -4
 \end{bmatrix}
-\]
-
-Notice that the second column does not have a pivot (a leading non-zero entry). We move to the third column to establish our next pivot by multiplying row 2 by $-1$:
-\[
-\xrightarrow{R_2 \leftarrow -R_2}
+\xrightarrow{-R_2}
 \begin{bmatrix}
-1 & -2 & 2 & 3 \\
-0 &  0 & 1 & 1 \\
-0 &  0 & 3 & 3 \\
+1 & -2 &  2 &  3 \\
+0 &  0 &  1 &  1 \\
+0 &  0 &  3 &  3 \\
 0 &  0 & -4 & -4
-\end{bmatrix}
-\]
-
-Now, we use this new pivot in the third column to eliminate the entries below it:
-\[
-\xrightarrow{\substack{R_3 \leftarrow R_3 - 3R_2 \\ R_4 \leftarrow R_4 + 4R_2}}
+\end{bmatrix} \\[0.8em]
+&\xrightarrow[R_4 + 4R_2]{R_3 - 3R_2}
 \begin{bmatrix}
 1 & -2 & 2 & 3 \\
 0 &  0 & 1 & 1 \\
 0 &  0 & 0 & 0 \\
 0 &  0 & 0 & 0
 \end{bmatrix}
-\]
-
-Finally, we place the matrix into full Reduced Row Echelon Form (RREF) by clearing the entry above the pivot in column 3:
-\[
-\xrightarrow{R_1 \leftarrow R_1 - 2R_2}
+\xrightarrow{R_1 - 2R_2}
 \begin{bmatrix}
 1 & -2 & 0 & 1 \\
 0 &  0 & 1 & 1 \\
 0 &  0 & 0 & 0 \\
 0 &  0 & 0 & 0
-\end{bmatrix}
+\end{bmatrix}.
+\end{align*}
+The pivots are in \textbf{column 1} and \textbf{column 3}, so columns 2 and 4 are redundant. The RREF even tells us how:
+\[
+\vec{v}_2 = -2\vec{v}_1, \qquad \vec{v}_4 = \vec{v}_1 + \vec{v}_3.
 \]
-
-The leading entries (the pivots) are located in \textbf{column 1} and \textbf{column 3}. This tells us that columns 2 and 4 are free columns, meaning they are linear combinations of columns 1 and 3 (they are redundant). To form our basis, we discard the redundant columns and keep the \textbf{original vectors} corresponding to the pivot columns:
+Keeping the \textbf{original vectors} from the pivot columns,
 \[
 \mathcal{B} = \left\{
-    \begin{bmatrix} 1 \\ 1 \\ -1 \\ 3 \end{bmatrix},
-    \begin{bmatrix} 2 \\ 1 \\ 1 \\ 2 \end{bmatrix}
+\begin{bmatrix} 1 \\ 1 \\ -1 \\ 3 \end{bmatrix},
+\begin{bmatrix} 2 \\ 1 \\ 1 \\ 2 \end{bmatrix}
 \right\}
 \]
-\end{proof}
+is a basis for $U$, and $\dim(U) = 2$.
+\end{solution}
+\end{example}
 
-\vspace{2em}
+\begin{example}[A Basis for a Span in $P_2(\mathbb{R})$]
+Let $U = \operatorname{Span}\{2 - x + x^2, \ 1 + x - 2x^2, \ 3 - x^2\}$. Find a basis for $U$.
 
-\noindent\textbf{Example 2:} \\[0.5em]
-Let $U = \operatorname{Span}\{2 - x + x^2,\, 1 + x - 2x^2,\, 3 - x^2\}$. Find a basis for $U$.
-
-\vspace{1em}
-
-\begin{proof}[Solution]
-We must check these polynomials for linear independence. Suppose $c_1, c_2, c_3 \in \mathbb{R}$ such that their linear combination equals the zero polynomial:
+\begin{solution}
+Suppose
 \[
-c_1(2-x+x^2) + c_2(1+x-2x^2) + c_3(3-x^2) = 0.
+c_1(2 - x + x^2) + c_2(1 + x - 2x^2) + c_3(3 - x^2) = 0.
 \]
-
-If we expand and group the terms by their powers of $x$ (constants together, $x$ terms together, $x^2$ terms together), we force their coefficients to equal 0. This gives us the following \textbf{Linear System:}
-\[
-\begin{alignedat}{4}
-2c_1 & {}+{} &  c_2 & {}+{} & 3c_3 & {}={} 0 \quad (\text{constants}) \\[0.5em]
- -c_1 & {}+{} &  c_2 &       &      & {}={} 0 \quad (x \text{ terms}) \\[0.5em]
-  c_1 & {}-{} & 2c_2 & {}-{} &  c_3 & {}={} 0 \quad (x^2 \text{ terms})
-\end{alignedat}
-\]
-
-We extract the coefficients into a matrix and perform row reduction to find the pivots:
-\[
-\quad\xrightarrow{\text{Coefficient Matrix}}\quad
+Expanding and grouping by powers of $x$, each coefficient must be $0$:
+\begin{alignat*}{2}
+2c_1 + c_2 + 3c_3 &= 0 &\qquad& \by{constants} \\
+-c_1 + c_2 &= 0 && \by{$x$ terms} \\
+c_1 - 2c_2 - c_3 &= 0 && \by{$x^2$ terms}
+\end{alignat*}
+Row reducing the coefficient matrix:
+\begin{align*}
 \begin{bmatrix}
  2 &  1 &  3 \\
 -1 &  1 &  0 \\
  1 & -2 & -1
 \end{bmatrix}
-\xrightarrow{\text{REF}}
+&\xrightarrow{R_1 \leftrightarrow R_3}
 \begin{bmatrix}
-1 & 0 & 1 \\
-0 & 1 & 1 \\
-0 & 0 & 0
+ 1 & -2 & -1 \\
+-1 &  1 &  0 \\
+ 2 &  1 &  3
 \end{bmatrix}
-\]
-
-The leading entries (pivots) appear in the first and second columns. This means the third column represents a redundant polynomial. Thus, we extract the first two original polynomials to form our basis:
+\xrightarrow[R_3 - 2R_1]{R_2 + R_1}
+\begin{bmatrix}
+ 1 & -2 & -1 \\
+ 0 & -1 & -1 \\
+ 0 &  5 &  5
+\end{bmatrix} \\[0.8em]
+&\xrightarrow{-R_2}
+\begin{bmatrix}
+ 1 & -2 & -1 \\
+ 0 &  1 &  1 \\
+ 0 &  5 &  5
+\end{bmatrix}
+\xrightarrow[R_1 + 2R_2]{R_3 - 5R_2}
+\begin{bmatrix}
+ 1 & 0 & 1 \\
+ 0 & 1 & 1 \\
+ 0 & 0 & 0
+\end{bmatrix}.
+\end{align*}
+The pivots appear in the first and second columns, so the third polynomial is redundant. Indeed, the third column says it is the sum of the first two:
 \[
-\mathcal{B} = \{2 - x + x^2,\, 1 + x - 2x^2\}
+(2 - x + x^2) + (1 + x - 2x^2) = 3 - x^2.
 \]
-\end{proof}
+Keeping the first two original polynomials,
+\[
+\mathcal{B} = \{2 - x + x^2, \ 1 + x - 2x^2\}
+\]
+is a basis for $U$, and $\dim(U) = 2$.
+\end{solution}
+\end{example}
 
-\vspace{2em}
 % =========================================================================
 \subsection{Dimension of a Vector Space}
-\vspace{1em}
 
-If $B = \{\vec{v}_1, \dots, \vec{v}_k\}$ and $C = \{\vec{w}_1, \dots, \vec{w}_l\}$ are both bases for a vector space $V$, then it is a mathematical guarantee that $k = l$. A vector space always requires the exact same number of basis vectors, regardless of which specific vectors you choose.
+\begin{theorem}[Dimension Is Well Defined]
+If $\mathcal{B} = \{\vec{v}_1, \dots, \vec{v}_k\}$ and $\mathcal{C} = \{\vec{w}_1, \dots, \vec{w}_\ell\}$ are both bases for a vector space $V$, then $k = \ell$.
+\end{theorem}
 
-\vspace{1.5em}
+\begin{remark}
+This is a mathematical guarantee: a vector space always requires the exact same number of basis vectors, regardless of which specific vectors you choose. The idea behind the proof is that if $k < \ell$, then $\ell$ vectors would be sitting inside the span of only $k$ vectors, which forces them to be dependent. So $\mathcal{C}$ could not be a basis.
+\end{remark}
 
-\noindent\textbf{Definition (Dimension).} \\[0.5em]
-If $B = \{\vec{v}_1, \dots, \vec{v}_k\}$ is a basis for a vector space $V$, then the \textbf{dimension} of $V$, denoted by $\dim(V)$, is the cardinality (size) of $B$. Written as: 
+\begin{definition}[Dimension]
+If $\mathcal{B} = \{\vec{v}_1, \dots, \vec{v}_k\}$ is a basis for a vector space $V$, then the \textbf{dimension} of $V$ is the number of vectors in $\mathcal{B}$:
 \[
-\dim(V) = k \quad \text{In particular, if } V = \{\vec{0}\}, \text{ then } \dim(V) = 0.
+\dim(V) = k.
+\]
+In particular, if $V = \{\vec{0}\}$, then $\dim(V) = 0$, since its basis is $\emptyset$. If $V$ has a finite basis, we call $V$ \textbf{finite dimensional}.
+\end{definition}
+
+\begin{example}[Dimensions of the Standard Spaces]
+Find $\dim(\mathbb{R}^n)$, $\dim(P_n(\mathbb{R}))$ and $\dim(M_{m \times n}(\mathbb{R}))$.
+
+\begin{solution}
+Count the vectors in each standard basis:
+\begin{alignat*}{2}
+\dim(\mathbb{R}^n) &= n &\qquad& \by{one $\vec{e}_i$ per entry} \\
+\dim(P_n(\mathbb{R})) &= n + 1 && \by{$1, x, \dots, x^n$; the $+1$ is for the constant term} \\
+\dim(M_{m \times n}(\mathbb{R})) &= mn && \by{one $E_{ij}$ per matrix entry}
+\end{alignat*}
+For example, $\dim(P_2(\mathbb{R})) = 3$ and $\dim(M_{2 \times 3}(\mathbb{R})) = 6$.
+\end{solution}
+\end{example}
+
+\begin{example}[Dimension of a Subspace Given by a Condition]
+Find a basis and the dimension of
+\[
+S = \left\{ \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{bmatrix} \in \mathbb{R}^4 \;\middle|\; x_1 + x_2 + x_3 + x_4 = 0 \right\}.
 \]
 
-\vspace{1.5em}
+\begin{solution}
+Solve the condition for one variable, $x_4 = -x_1 - x_2 - x_3$, and split the general vector by its free variables:
+\[
+\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ -x_1 - x_2 - x_3 \end{bmatrix}
+= x_1 \begin{bmatrix} 1 \\ 0 \\ 0 \\ -1 \end{bmatrix}
++ x_2 \begin{bmatrix} 0 \\ 1 \\ 0 \\ -1 \end{bmatrix}
++ x_3 \begin{bmatrix} 0 \\ 0 \\ 1 \\ -1 \end{bmatrix}.
+\]
+So these three vectors span $S$. They are also independent: if a combination of them is $\vec{0}$, the first three entries give $x_1 = x_2 = x_3 = 0$ directly. So they form a basis, and
+\[
+\dim(S) = 3.
+\]
+This makes sense: one equation in $\mathbb{R}^4$ removes one degree of freedom, $4 - 1 = 3$.
+\end{solution}
+\end{example}
 
-\noindent\textbf{Examples of Dimension:} 
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item $\dim(\mathbb{R}^n) = n$ (requires exactly $n$ coordinate vectors).
-    \item $\dim(M_{m \times n}(\mathbb{R})) = m \times n$ (requires one vector for every matrix entry).
-    \item $\dim(P_n(\mathbb{R})) = n + 1$ (the $+1$ is for the constant term).
+\begin{example}[Dimension of the Symmetric $2 \times 2$ Matrices]
+Find a basis and the dimension of $S = \{A \in M_{2 \times 2}(\mathbb{R}) \mid A = A^T\}$.
+
+\begin{solution}
+Write a general $2 \times 2$ matrix with entries $a, b, c, d$. The condition $A = A^T$ means
+\[
+\begin{bmatrix} a & b \\ c & d \end{bmatrix} = \begin{bmatrix} a & c \\ b & d \end{bmatrix}
+\implies b = c.
+\]
+So every element of $S$ looks like
+\[
+\begin{bmatrix} a & b \\ b & d \end{bmatrix}
+= a\begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}
++ b\begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
++ d\begin{bmatrix} 0 & 0 \\ 0 & 1 \end{bmatrix}.
+\]
+These three matrices span $S$, and they are independent (if the combination is the zero matrix, then $a = b = d = 0$ by reading off entries). So they form a basis, and $\dim(S) = 3$.
+\end{solution}
+\end{example}
+
+\subsubsection{Counting Vectors}
+
+\begin{theorem}[Too Many, Too Few, Just Right]\label{thm:L3-count}
+Let $V$ be a finite dimensional vector space with $\dim(V) = n$. Then:
+\begin{enumerate}
+    \item A set of \textbf{more than $n$} vectors must be linearly dependent. (You have too many vectors, creating guaranteed redundancy.)
+    \item A set of \textbf{fewer than $n$} vectors cannot span $V$. (You don't have enough directions to reach every corner of the space.)
+    \item A set of \textbf{exactly $n$} vectors spans $V$ if and only if it is linearly independent. (If the count is exactly $n$, passing one test automatically guarantees passing the other.)
 \end{enumerate}
+\end{theorem}
 
-\vspace{1.5em}
-
-\noindent\textbf{Theorem:} \\[0.5em]
-Let $V$ be a finite dimensional space and suppose that $\dim(V) = n$. Then:
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item A set of \textbf{more than $n$} vectors must be linearly dependent. (You have too many vectors, creating guaranteed redundancy).
-    \item A set of \textbf{fewer than $n$} vectors cannot span $V$. (You don't have enough directions to reach every corner of the space).
-    \item A set of \textbf{exactly $n$} vectors in $V$ spans $V$ if and only if it is linearly independent. (If the count is perfectly $n$, passing one test automatically guarantees passing the other).
+\begin{formula}[Basis Check When $\dim(V) = n$ Is Known]
+Let $\mathcal{B}$ have $k$ vectors.
+\begin{enumerate}
+    \item If $k \neq n$, then $\mathcal{B}$ is \textbf{not} a basis. Done.
+    \item If $k = n$, check only linear independence. Independent means basis, dependent means not a basis.
 \end{enumerate}
+\end{formula}
 
-\vspace{1.5em}
+\begin{example}[Counting Alone Decides]
+Decide whether each set is a basis.
+\[
+\text{(a)} \ \{1, \ x, \ x^2, \ 2x^2, \ 1 - 3x\} \subseteq P_2(\mathbb{R})
+\qquad
+\text{(b)} \ \left\{ \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} \right\} \subseteq \mathbb{R}^3
+\]
 
-\noindent\textbf{Examples:}
-\begin{itemize}[itemsep=1.5em, topsep=1em]
-    \item Let $B = \{1, x, x^2, 2x^2, -3x + 1\} \subseteq P_2(\mathbb{R})$. The set $B$ is linearly dependent because it contains 5 elements, which is more than $\dim(P_2(\mathbb{R})) = 3$. Because $5 > 3$, there is unavoidable redundancy. Therefore, $B$ cannot be a basis.
-    
-    \item Let $B = \left\{ \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} \right\} \subseteq \mathbb{R}^3$. Because there are only 2 vectors and $\dim(\mathbb{R}^3) = 3$, this set physically cannot span $\mathbb{R}^3$. It only describes a 2D plane.
-\end{itemize}
+\begin{solution}
+\textbf{(a)} The set has 5 elements, but $\dim(P_2(\mathbb{R})) = 3$. Because $5 > 3$, there is unavoidable redundancy, so the set is dependent and \textbf{not} a basis.
 
-\vspace{2em}
+\textbf{(b)} There are only 2 vectors and $\dim(\mathbb{R}^3) = 3$, so this set cannot span $\mathbb{R}^3$. It only describes a 2D plane (the $xy$-plane), so it is \textbf{not} a basis.
+\end{solution}
+\end{example}
+
+\begin{example}[Right Count, Check Independence]
+Is $\mathcal{B} = \{x + x^2, \ 2 - x^2, \ 1 + x + x^2\}$ a basis for $P_2(\mathbb{R})$?
+
+\begin{solution}
+$\mathcal{B}$ has 3 vectors and $\dim(P_2(\mathbb{R})) = 3$, so we only need independence. Setting
+\[
+c_1(x + x^2) + c_2(2 - x^2) + c_3(1 + x + x^2) = 0
+\]
+and matching coefficients:
+\begin{alignat*}{2}
+2c_2 + c_3 &= 0 &\qquad& \by{constants} \\
+c_1 + c_3 &= 0 && \by{$x$ terms} \\
+c_1 - c_2 + c_3 &= 0 && \by{$x^2$ terms}
+\end{alignat*}
+Subtracting the second equation from the third gives $-c_2 = 0$, so $c_2 = 0$. Then the first gives $c_3 = 0$, and the second gives $c_1 = 0$. Only the trivial solution exists, so $\mathcal{B}$ is independent, and therefore a basis for $P_2(\mathbb{R})$. We never had to check spanning.
+\end{solution}
+\end{example}
+
+\begin{example}[Right Count, Still Fails]
+Is
+\[
+\mathcal{B} = \left\{ \begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix}, \begin{bmatrix} 2 \\ 1 \\ -1 \end{bmatrix}, \begin{bmatrix} -3 \\ 0 \\ 1 \end{bmatrix} \right\}
+\]
+a basis for $\mathbb{R}^3$?
+
+\begin{solution}
+The count is right ($3 = \dim(\mathbb{R}^3)$), so we check independence. Adding all three vectors:
+\[
+\begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix} + \begin{bmatrix} 2 \\ 1 \\ -1 \end{bmatrix} + \begin{bmatrix} -3 \\ 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}.
+\]
+This is a non-trivial combination equal to zero, so $\mathcal{B}$ is dependent and \textbf{not} a basis.
+\end{solution}
+\end{example}
+
 % =========================================================================
-\subsection{Basis Expansion Theorem}
-\vspace{1em}
+\subsection{Basis Expansion}
 
-\noindent\textbf{Theorem (Basis Expansion):} \\[0.5em]
-Let $V$ be an $n$-dimensional vector space. If $C = \{\vec{v}_1, \dots, \vec{v}_k\} \subseteq V$ is a linearly independent set with $k < n$, then we can find additional vectors $\vec{v}_{k+1}, \dots, \vec{v}_n \in V$ such that:
+\begin{lemma}[Adding a Vector Outside the Span]\label{lem:L3-add}
+Let $C = \{\vec{v}_1, \dots, \vec{v}_k\}$ be linearly independent. If $\vec{v} \notin \operatorname{Span}(C)$, then $\{\vec{v}_1, \dots, \vec{v}_k, \vec{v}\}$ is still linearly independent.
+\end{lemma}
+
+\begin{proof}
+Suppose $c_1\vec{v}_1 + \dots + c_k\vec{v}_k + a\vec{v} = \vec{0}$. If $a \neq 0$, we could solve
+\[
+\vec{v} = -\frac{c_1}{a}\vec{v}_1 - \dots - \frac{c_k}{a}\vec{v}_k,
+\]
+which would put $\vec{v}$ in $\operatorname{Span}(C)$, a contradiction. So $a = 0$, and the equation becomes $c_1\vec{v}_1 + \dots + c_k\vec{v}_k = \vec{0}$. Since $C$ is independent, all $c_i = 0$. Only the trivial solution exists.
+\end{proof}
+
+\begin{theorem}[Basis Expansion]
+Let $V$ be an $n$-dimensional vector space. If $C = \{\vec{v}_1, \dots, \vec{v}_k\} \subseteq V$ is linearly independent with $k < n$, then we can find additional vectors $\vec{v}_{k+1}, \dots, \vec{v}_n \in V$ such that
 \[
 \{\vec{v}_1, \dots, \vec{v}_k, \vec{v}_{k+1}, \dots, \vec{v}_n\}
 \]
-is a full basis for $V$. (In other words, you can always "pad" an independent set until it becomes a basis).
+is a basis for $V$. In other words, you can always ``pad'' an independent set until it becomes a basis.
+\end{theorem}
 
-\vspace{1.5em}
+\begin{proof}
+Since $k < n$, $C$ cannot span $V$ (Theorem~\ref{thm:L3-count}(2)), so there is some $\vec{v}_{k+1} \in V$ with $\vec{v}_{k+1} \notin \operatorname{Span}(C)$. By Lemma~\ref{lem:L3-add}, $C \cup \{\vec{v}_{k+1}\}$ is still independent. Repeat this until the set has $n$ vectors. An independent set of exactly $n$ vectors is a basis by Theorem~\ref{thm:L3-count}(3).
+\end{proof}
 
-\noindent\textbf{Steps to expand a basis:}
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item Consider the independent set.
-    \item Form a matrix with a generic vector and find an REF to determine the dependency conditions.
-    \item Choose a new vector that intentionally violates those conditions.
+\begin{formula}[How to Expand to a Basis]
+\begin{enumerate}
+    \item Start with the independent set $C$ and note how many vectors are missing ($n - k$).
+    \item Set a generic vector equal to a combination of $C$ and row reduce to find the condition for it to be \emph{inside} $\operatorname{Span}(C)$.
+    \item Choose a new vector that intentionally violates that condition, and add it. Repeat if more vectors are needed.
 \end{enumerate}
+\end{formula}
 
-\vspace{1.5em}
-
-\noindent\textbf{Example 1 (Expanding in $\mathbb{R}^3$):} \\[0.5em]
-Extend the set $C = \left\{ \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} \right\}$ to a basis for $\mathbb{R}^3$.
-
-\vspace{1em}
-
-\begin{proof}[Solution]
-We note that $C$ is linearly independent (they are not scalar multiples). Since $\dim(\mathbb{R}^3) = 3$, we need to add exactly one more vector to $C$, ensuring it is NOT a linear combination of the vectors currently in $C$.
-
-Let $\begin{bmatrix} a \\ b \\ c \end{bmatrix} \in \mathbb{R}^3$ be a generic vector. We check the condition for this vector to fall inside the span by checking if there exist $c_1, c_2 \in \mathbb{R}$ such that:
+\begin{example}[Expanding in $\mathbb{R}^3$]
+Extend
 \[
-\begin{bmatrix} a \\ b \\ c \end{bmatrix} = c_1 \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} + c_2 \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}
+C = \left\{ \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} \right\}
 \]
+to a basis for $\mathbb{R}^3$.
 
-Setting up the augmented matrix of this system and computing the REF, we get:
+\begin{solution}
+$C$ is linearly independent (the vectors are not scalar multiples). Since $\dim(\mathbb{R}^3) = 3$, we need exactly one more vector, and it must \textbf{not} be a linear combination of the vectors in $C$.
+
+Take a generic vector with entries $a, b, c$ and ask when there exist $c_1, c_2$ with
 \[
-\left(\begin{array}{cc|c} 
-1 & 0 & a \\ 
-0 & 1 & b - 2a \\ 
-0 & 0 & c - 3a 
-\end{array}\right)
+c_1 \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} + c_2 \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} = \begin{bmatrix} a \\ b \\ c \end{bmatrix}.
 \]
+Row reducing the augmented matrix:
+\[
+\left[\begin{array}{cc|c}
+1 & 0 & a \\
+2 & 1 & b \\
+3 & 0 & c
+\end{array}\right]
+\xrightarrow[R_3 - 3R_1]{R_2 - 2R_1}
+\left[\begin{array}{cc|c}
+1 & 0 & a \\
+0 & 1 & b - 2a \\
+0 & 0 & c - 3a
+\end{array}\right].
+\]
+Looking at the bottom row, the vector is inside the span exactly when $c - 3a = 0$. Choosing any $a, b, c$ that deliberately break this rule gives a valid extension vector.
 
-Looking at the bottom row, this system is inconsistent (meaning the vector is outside the span) when $c - 3a \neq 0 \implies c \neq 3a$. Choosing any numbers for $a, b, c$ that deliberately break this rule will give us a valid extension vector. 
-
-Consider $a=2, b=0, c=1$. Because $1 \neq 3(2)$, the rule is broken, so the vector $\begin{bmatrix} 2 \\ 0 \\ 1 \end{bmatrix}$ is completely independent from the original two.
-
-So, expanding the set gives:
+Take $a = 2$, $b = 0$, $c = 1$. Since $1 \neq 3(2)$, this vector is outside $\operatorname{Span}(C)$, so by Lemma~\ref{lem:L3-add} the expanded set
 \[
 \mathcal{B} = \left\{ \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}, \begin{bmatrix} 2 \\ 0 \\ 1 \end{bmatrix} \right\}
 \]
-which is a full basis for $\mathbb{R}^3$.
-\end{proof}
+is independent. It has $3 = \dim(\mathbb{R}^3)$ vectors, so it is a full basis for $\mathbb{R}^3$.
+\end{solution}
+\end{example}
 
-\vspace{2em}
+\begin{example}[Expanding in $P_3(\mathbb{R})$]
+Extend $C = \{x, \ 1 + x\}$ to a basis for $P_3(\mathbb{R})$.
 
-\noindent\textbf{Example 2 (Expanding in Polynomial Space):} \\[0.5em]
-Extend the set $C = \{x, 1+x\}$ to a basis for $P_3(\mathbb{R})$.
-
-\vspace{1em}
-
-\begin{proof}[Solution]
-The space $P_3(\mathbb{R})$ is 4-dimensional, so we need two more polynomials that are not in the span of $C$. Notice that $C$ contains only degree 1 polynomials. Any combination of $C$ will only yield degree 1 or constant terms; it physically cannot create any polynomials of degree 2 or higher. 
-
-Because of this, we can safely and simply add the standard higher-degree polynomials $x^2$ and $x^3$. Since they cannot be built from $C$, they maintain linear independence:
-\[ \mathcal{B} = \{x, 1+x, x^2, x^3\} \]
-\end{proof}
-
-\end{document}
+\begin{solution}
+The space $P_3(\mathbb{R})$ is 4-dimensional, so we need two more polynomials. Notice that $C$ contains only polynomials of degree at most 1. Any combination of them has degree at most 1, so it can never produce $x^2$:
+\[
+x^2 \notin \operatorname{Span}\{x, \ 1 + x\}.
+\]
+By Lemma~\ref{lem:L3-add}, $\{x, \ 1 + x, \ x^2\}$ is independent. By the same reasoning, nothing in its span has an $x^3$ term, so $x^3$ can be added too. This gives
+\[
+\mathcal{B} = \{x, \ 1 + x, \ x^2, \ x^3\},
+\]
+an independent set of $4 = \dim(P_3(\mathbb{R}))$ polynomials, which is a basis for $P_3(\mathbb{R})$.
+\end{solution}
+\end{example}

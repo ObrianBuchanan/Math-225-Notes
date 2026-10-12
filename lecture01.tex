@@ -1,281 +1,581 @@
 \section{Lecture 1: General Vector Spaces and Subspaces}
 
-% Increases line spacing within matrices and arrays globally for this section
-\renewcommand{\arraystretch}{1.4} 
-\vspace{1em}
-
-\textbf{Intuition:} In previous courses, a "vector" was strictly an arrow in space (with magnitude and direction) or a column of numbers. In Applied Linear Algebra II, we generalize this concept entirely. A vector space is simply a mathematical sandbox. It is any collection of objects (whether they are matrices, polynomials, functions, or coordinates) that strictly obey a specific set of 10 rules. If they obey these rules, they are officially "vectors," and all the powerful theorems of linear algebra apply to them.
+\begin{intuition}
+In previous courses, a ``vector'' was strictly an arrow in space (with magnitude and direction) or a column of numbers. In Applied Linear Algebra II, we generalize this concept entirely. A vector space is simply a mathematical sandbox. It is any collection of objects (whether they are matrices, polynomials, functions, or coordinates) that strictly obey a specific set of 10 rules. If they obey these rules, they are officially ``vectors,'' and all the powerful theorems of linear algebra apply to them.
+\end{intuition}
 
 The first five axioms govern how addition works internally, and the next five govern how scaling interacts with the vectors.
 
-\vspace{1.5em}
-\subsubsection*{Vector Addition Axioms}
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item \textbf{Closure under Addition:} 
-    For all $u, v \in V$, the sum $u + v \in V$. (Adding two vectors cannot produce an object outside the space).
-    
-    \item \textbf{Commutativity:} 
-    $u + v = v + u$ for all $u, v \in V$.
-    
-    \item \textbf{Associativity:} 
-    $(u + v) + w = u + (v + w)$ for all $u, v, w \in V$.
-    
-    \item \textbf{Additive Identity:} 
-    There exists a unique element $0 \in V$ such that $v + 0 = v$ for all $v \in V$.
-    
-    \item \textbf{Additive Inverse:} 
-    For each $v \in V$, there exists a unique element $-v \in V$ such that $v + (-v) = 0$.
+% =========================================================================
+\subsection{Vector Spaces and the Ten Axioms}
+
+\begin{definition}[Vector Space]
+A \textbf{vector space over $\mathbb{R}$} is a set $V$ together with two operations, \textbf{addition} $\vec{x} + \vec{y}$ and \textbf{scalar multiplication} $c\vec{x}$, such that for all $\vec{x}, \vec{y}, \vec{z} \in V$ and all $c, d \in \mathbb{R}$ the following ten axioms hold.
+
+\medskip
+\textbf{Vector Addition Axioms}
+\begin{enumerate}[label=\textbf{V\arabic*}, leftmargin=2.6em]
+    \item \textbf{Closure under Addition:} $\vec{x} + \vec{y} \in V$
+    \item \textbf{Commutativity:} $\vec{x} + \vec{y} = \vec{y} + \vec{x}$
+    \item \textbf{Associativity:} $(\vec{x} + \vec{y}) + \vec{z} = \vec{x} + (\vec{y} + \vec{z})$
+    \item \textbf{Additive Identity:} there is a $\vec{0} \in V$ with $\vec{x} + \vec{0} = \vec{x}$ for all $\vec{x} \in V$
+    \item \textbf{Additive Inverse:} for each $\vec{x} \in V$ there is a $-\vec{x} \in V$ with $\vec{x} + (-\vec{x}) = \vec{0}$
 \end{enumerate}
 
-\vspace{1.5em}
-\subsubsection*{Scalar Multiplication Axioms}
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
+\medskip
+\textbf{Scalar Multiplication Axioms}
+\begin{enumerate}[label=\textbf{V\arabic*}, leftmargin=2.6em]
     \setcounter{enumi}{5}
-    \item \textbf{Closure under Scalar Multiplication:} 
-    For all $c \in \mathbb{R}$ and $v \in V$, the product $cv \in V$.
-    
-    \item \textbf{Vector Distributivity:} 
-    $c(u + v) = cu + cv$ for all $c \in \mathbb{R}$ and $u, v \in V$.
-    
-    \item \textbf{Scalar Distributivity:} 
-    $(c + d)v = cv + dv$ for all $c, d \in \mathbb{R}$ and $v \in V$.
-    
-    \item \textbf{Associativity:} 
-    $(cd)v = c(dv)$ for all $c, d \in \mathbb{R}$ and $v \in V$.
-    
-    \item \textbf{Multiplicative Identity:} 
-    $1v = v$ for all $v \in V$.
+    \item \textbf{Closure under Scalar Multiplication:} $c\vec{x} \in V$
+    \item \textbf{Vector Distributivity:} $c(\vec{x} + \vec{y}) = c\vec{x} + c\vec{y}$
+    \item \textbf{Scalar Distributivity:} $(c + d)\vec{x} = c\vec{x} + d\vec{x}$
+    \item \textbf{Associativity:} $(cd)\vec{x} = c(d\vec{x})$
+    \item \textbf{Multiplicative Identity:} $1\vec{x} = \vec{x}$
 \end{enumerate}
+\end{definition}
 
-\vspace{2em}
+\begin{remark}
+A set on its own is \emph{not} a vector space. We first have to say what ``addition'' and ``scalar multiplication'' mean on $V$, and only then check the ten axioms. The same set can be a vector space under one pair of operations and fail under another.
+\end{remark}
+
+\begin{example}[Checking All Ten Axioms]
+Let $V = \mathbb{R}_{>0}$ be the set of positive real numbers, with ``addition'' and ``scalar multiplication'' defined by
+\[
+x \oplus y = xy, \qquad c \odot x = x^{c}.
+\]
+Show that $V$ is a vector space.
+
+\begin{solution}
+We go through the axioms one at a time. Throughout, $x, y, z > 0$ and $c, d \in \mathbb{R}$.
+
+\medskip
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l l l@{}}
+\textbf{V1} & $x \oplus y = xy > 0$ & so $x \oplus y \in V$ \\
+\textbf{V2} & $x \oplus y = xy = yx = y \oplus x$ & \\
+\textbf{V3} & $(x \oplus y) \oplus z = (xy)z = x(yz) = x \oplus (y \oplus z)$ & \\
+\textbf{V4} & $x \oplus 1 = x \cdot 1 = x$ & so the zero vector is $1$ \\
+\textbf{V5} & $x \oplus \tfrac{1}{x} = 1$ & so $-x = \tfrac{1}{x} \in V$ \\
+\textbf{V6} & $c \odot x = x^{c} > 0$ & so $c \odot x \in V$ \\
+\textbf{V7} & $c \odot (x \oplus y) = (xy)^{c} = x^{c}y^{c} = (c \odot x) \oplus (c \odot y)$ & \\
+\textbf{V8} & $(c + d) \odot x = x^{c+d} = x^{c}x^{d} = (c \odot x) \oplus (d \odot x)$ & \\
+\textbf{V9} & $(cd) \odot x = x^{cd} = (x^{d})^{c} = c \odot (d \odot x)$ & \\
+\textbf{V10} & $1 \odot x = x^{1} = x$ & 
+\end{tabular}
+\end{center}
+\medskip
+
+All ten axioms hold, so $V$ is a vector space. Notice that the ``zero vector'' here is the number $1$, and the ``negative'' of $x$ is $\tfrac{1}{x}$. The zero vector is just whatever element acts as the additive identity, it does not have to be the number $0$.
+\end{solution}
+\end{example}
+
+\subsubsection{Showing a Set Is Not a Vector Space}
+
+To show something \emph{is} a vector space, all ten axioms have to hold. To show something is \emph{not} a vector space, we only need \textbf{one} axiom to fail, and we prove it fails with a specific counterexample (actual numbers).
+
+\begin{example}[The Integers]
+Let $V = \mathbb{Z}$ with the usual addition and multiplication. Is $V$ a vector space over $\mathbb{R}$?
+
+\begin{solution}
+No. Closure under scalar multiplication (V6) fails. Take $c = \tfrac{1}{2}$ and $x = 1 \in \mathbb{Z}$:
+\[
+cx = \tfrac{1}{2} \notin \mathbb{Z}.
+\]
+Scaling a vector in $V$ produced something outside $V$, so $\mathbb{Z}$ is not a vector space over $\mathbb{R}$.
+\end{solution}
+\end{example}
+
+\begin{example}[A Strange Scalar Multiplication]
+Let $V = \mathbb{R}^2$ with the usual addition, but with scalar multiplication defined by
+\[
+c \odot \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} cx \\ 0 \end{bmatrix}.
+\]
+Is $V$ a vector space?
+
+\begin{solution}
+No. The multiplicative identity axiom (V10) fails:
+\[
+1 \odot \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 \\ 0 \end{bmatrix} \neq \begin{bmatrix} 1 \\ 1 \end{bmatrix}.
+\]
+The set $\mathbb{R}^2$ is fine, but with this operation it is not a vector space.
+\end{solution}
+\end{example}
+
 % =========================================================================
-\subsection{The Elements of a Vector Space}
-\vspace{1em}
+\subsection{The Standard Vector Spaces}
 
-The elements of a vector space $V$ are called \textbf{vectors}. The elements of the field (which for this course is always $\mathbb{R}$) are called \textbf{scalars}.
+The elements of a vector space $V$ are called \textbf{vectors}. The elements of the field (which for this course is always $\mathbb{R}$) are called \textbf{scalars}. These are the four spaces we will use over and over.
 
-\vspace{1.5em}
+\begin{definition}[Euclidean Space $\mathbb{R}^n$]
+\[
+\mathbb{R}^n = \left\{ \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix} \;\middle|\; x_1, \dots, x_n \in \mathbb{R} \right\}
+\]
+with addition and scalar multiplication done component-wise:
+\[
+\begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix} + \begin{bmatrix} y_1 \\ \vdots \\ y_n \end{bmatrix} = \begin{bmatrix} x_1 + y_1 \\ \vdots \\ x_n + y_n \end{bmatrix},
+\qquad
+c\begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix} = \begin{bmatrix} cx_1 \\ \vdots \\ cx_n \end{bmatrix}.
+\]
+The zero vector is the column of $n$ zeros.
+\end{definition}
 
-\noindent\textbf{Canonical Examples of Vector Spaces:}
+\begin{example}[Computing in $\mathbb{R}^3$]
+Let
+\[
+\vec{x} = \begin{bmatrix} 1 \\ -2 \\ 3 \end{bmatrix}, \qquad \vec{y} = \begin{bmatrix} 4 \\ 0 \\ -1 \end{bmatrix}.
+\]
+Compute $\vec{x} + \vec{y}$ and $2\vec{x} - \vec{y}$.
 
-\begin{enumerate}[label=(\arabic*), itemsep=1.5em, topsep=1em, leftmargin=*]
-    \item \textbf{Euclidean Space $\mathbb{R}^n$:} 
-    \[
-    \mathbb{R}^n = \left\{ \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix} : x_1, \dots, x_n \in \mathbb{R} \right\}
-    \]
-    This is the standard space from linear algebra. Vector addition and scalar multiplication are performed component-wise. The zero vector is a column of $n$ zeros.
+\begin{solution}
+Working one entry at a time:
+\[
+\vec{x} + \vec{y} = \begin{bmatrix} 1 + 4 \\ -2 + 0 \\ 3 - 1 \end{bmatrix} = \begin{bmatrix} 5 \\ -2 \\ 2 \end{bmatrix},
+\qquad
+2\vec{x} - \vec{y} = \begin{bmatrix} 2 - 4 \\ -4 - 0 \\ 6 + 1 \end{bmatrix} = \begin{bmatrix} -2 \\ -4 \\ 7 \end{bmatrix}.
+\]
+\end{solution}
+\end{example}
 
-    \item \textbf{Matrix Space $M_{m \times n}(\mathbb{R})$:} 
-    The set of all $m \times n matrices$. Addition is the standard matrix addition (adding corresponding entries), and scalar multiplication scales every entry in the matrix. The additive identity here is the $m \times n$ zero matrix, consisting entirely of zeros.
+\begin{definition}[Matrix Space $M_{m \times n}(\mathbb{R})$]
+$M_{m \times n}(\mathbb{R})$ is the set of all $m \times n$ matrices with real entries, with addition and scalar multiplication done entry by entry:
+\[
+(A + B)_{ij} = (A)_{ij} + (B)_{ij}, \qquad (cA)_{ij} = c\,(A)_{ij}.
+\]
+The zero vector is the zero matrix $O_{m \times n}$, consisting entirely of zeros.
+\end{definition}
 
-    \item \textbf{Polynomial Space $P_n(\mathbb{R})$:} 
-    The space of all polynomials of degree $\le n$. The elements look like $p(x) = a_0 + a_1x + \dots + a_nx^n$. It is defined with the operations:
-    \[
-    (f + g)(x) = f(x) + g(x) \quad \text{and} \quad (cf)(x) = c f(x) \quad (c \in \mathbb{R}).
-    \]
-    The zero vector in this space is the zero polynomial $z(x) = 0$ for all $x$. Under these operations, $P_n(\mathbb{R})$ is a valid vector space.
+\begin{example}[Computing in $M_{2 \times 2}(\mathbb{R})$]
+Let
+\[
+A = \begin{bmatrix} 1 & 2 \\ 0 & -1 \end{bmatrix}, \qquad B = \begin{bmatrix} 3 & -1 \\ 4 & 2 \end{bmatrix}.
+\]
+Compute $A + B$ and $A - 2B$, and write down the additive inverse of $A$.
+
+\begin{solution}
+Entry by entry:
+\[
+A + B = \begin{bmatrix} 4 & 1 \\ 4 & 1 \end{bmatrix},
+\qquad
+A - 2B = \begin{bmatrix} 1 - 6 & 2 + 2 \\ 0 - 8 & -1 - 4 \end{bmatrix} = \begin{bmatrix} -5 & 4 \\ -8 & -5 \end{bmatrix}.
+\]
+The additive inverse flips every sign, since then $A + (-A) = O_{2 \times 2}$:
+\[
+-A = \begin{bmatrix} -1 & -2 \\ 0 & 1 \end{bmatrix}.
+\]
+\end{solution}
+\end{example}
+
+\begin{definition}[Polynomial Space $P_n(\mathbb{R})$]
+$P_n(\mathbb{R})$ is the set of all polynomials of degree \emph{at most} $n$ with real coefficients:
+\[
+P_n(\mathbb{R}) = \{ a_0 + a_1x + \dots + a_nx^n \mid a_0, a_1, \dots, a_n \in \mathbb{R} \},
+\]
+with the operations
+\[
+(p + q)(x) = p(x) + q(x), \qquad (cp)(x) = c\,p(x).
+\]
+In terms of coefficients, we add and scale matching coefficients. The zero vector is the zero polynomial $z(x) = 0 + 0x + \dots + 0x^n$.
+\end{definition}
+
+\begin{example}[Computing in $P_2(\mathbb{R})$]
+Let $p(x) = 1 + 2x - x^2$ and $q(x) = 3 - x + 4x^2$. Compute $p + q$ and $2p - q$. Then explain why $P_2(\mathbb{R})$ is defined as degree \emph{at most} 2, not \emph{exactly} 2.
+
+\begin{solution}
+Combining matching coefficients:
+\begin{align*}
+p + q  &= (1 + 3) + (2 - 1)x + (-1 + 4)x^2 = 4 + x + 3x^2, \\
+2p - q &= (2 + 4x - 2x^2) - (3 - x + 4x^2) = -1 + 5x - 6x^2.
+\end{align*}
+Now take $r(x) = 1 + x^2$ and $s(x) = 2 - x^2$. Both have degree exactly 2, but
+\[
+r + s = 3,
+\]
+which has degree 0. If we only allowed degree exactly 2, the set would not be closed under addition (V1), and it would not contain the zero polynomial at all. That is why we use ``degree at most $n$.''
+\end{solution}
+\end{example}
+
+\begin{definition}[Function Space $\mathcal{F}(\mathbb{R})$]
+$\mathcal{F}(\mathbb{R})$ is the set of all functions $f : \mathbb{R} \to \mathbb{R}$, with
+\[
+(f + g)(x) = f(x) + g(x), \qquad (cf)(x) = c\,f(x).
+\]
+The zero vector is the function that outputs $0$ for every $x$, and $-f$ is the function $(-f)(x) = -f(x)$.
+\end{definition}
+
+\begin{example}[Computing in $\mathcal{F}(\mathbb{R})$]
+Let $f(x) = \sin x$ and $g(x) = x^2$. Describe $f + g$ and $3f$, and evaluate both at $x = \pi$.
+
+\begin{solution}
+By the definitions of the operations,
+\[
+(f + g)(x) = \sin x + x^2, \qquad (3f)(x) = 3\sin x.
+\]
+At $x = \pi$:
+\[
+(f + g)(\pi) = 0 + \pi^2 = \pi^2, \qquad (3f)(\pi) = 3 \cdot 0 = 0.
+\]
+The key idea is that each ``vector'' here is an entire function, and adding two vectors means building a new function point by point.
+\end{solution}
+\end{example}
+
+% =========================================================================
+\subsection{Fundamental Properties Derived from the Axioms}\label{sec:L1-props}
+
+\begin{intuition}
+Because we have redefined ``vectors'' to be anything from matrices to functions, we cannot blindly assume that basic arithmetic works the same way it does with regular numbers. We must formally prove that things like $0 \cdot \vec{x} = \vec{0}$ are guaranteed strictly by the 10 axioms, without relying on our intuition.
+\end{intuition}
+
+\begin{theorem}[Uniqueness of the Zero Vector and Inverses]\label{thm:L1-unique}
+Let $V$ be a vector space over $\mathbb{R}$. Then:
+\begin{enumerate}
+    \item the zero vector $\vec{0}$ in $V$ is unique, and
+    \item for each $\vec{x} \in V$, the additive inverse $-\vec{x}$ is unique.
 \end{enumerate}
+\end{theorem}
 
-\vspace{2em}
-% =========================================================================
-\subsection{Fundamental Properties Derived from the Axioms}
-\vspace{1em}
+\begin{proof}
+\textbf{Proof of (1).} Suppose $\vec{0}$ and $\vec{0}'$ both satisfy V4. Then
+\begin{alignat*}{2}
+\vec{0} &= \vec{0} + \vec{0}'  &\qquad& \text{($\vec{0}'$ is an identity)} \\
+        &= \vec{0}' + \vec{0}  &&       \text{(by V2)} \\
+        &= \vec{0}'            &&       \text{($\vec{0}$ is an identity)}
+\end{alignat*}
+So any two zero vectors are equal.
 
-\textbf{Intuition:} Because we have redefined "vectors" to be anything from matrices to functions, we cannot blindly assume that basic arithmetic works the same way it does with regular numbers. We must formally prove that things like $0 \cdot \vec{x} = \vec{0}$ are guaranteed strictly by the 10 axioms, without relying on our intuition.
+\medskip
+\textbf{Proof of (2).} Suppose $\vec{y}$ and $\vec{z}$ are both inverses of $\vec{x}$, so $\vec{x} + \vec{y} = \vec{0}$ and $\vec{x} + \vec{z} = \vec{0}$. Then
+\begin{alignat*}{2}
+\vec{y} &= \vec{y} + \vec{0}                &\qquad& \text{(by V4)} \\
+        &= \vec{y} + (\vec{x} + \vec{z})    &&       \text{($\vec{z}$ is an inverse of $\vec{x}$)} \\
+        &= (\vec{x} + \vec{y}) + \vec{z}    &&       \text{(by V3, V2)} \\
+        &= \vec{0} + \vec{z} = \vec{z}      &&       \text{($\vec{y}$ is an inverse, then V2, V4)}
+\end{alignat*}
+So the inverse of $\vec{x}$ is unique.
+\end{proof}
 
-\vspace{1.5em}
-
-\noindent \textbf{Theorem (Elementary Arithmetic Properties of Vector Spaces):} \\[0.5em]
+\begin{theorem}[Elementary Arithmetic Properties of Vector Spaces]\label{thm:L1-arith}
 Let $V$ be a vector space over $\mathbb{R}$. For all $\vec{x} \in V$ and all $t \in \mathbb{R}$:
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
+\begin{enumerate}
     \item $0\vec{x} = \vec{0}$
     \item $t\vec{0} = \vec{0}$
     \item $(-1)\vec{x} = -\vec{x}$
-    \item If $t\vec{x} = \vec{0}$, then either $t = 0$ or $\vec{x} = \vec{0}$.
+    \item if $t\vec{x} = \vec{0}$, then either $t = 0$ or $\vec{x} = \vec{0}$.
 \end{enumerate}
-
-\vspace{1em}
+\end{theorem}
 
 \begin{proof}
-\textbf{Proof of (1):} In the real numbers, $0 + 0 = 0$. By scalar distributivity (Axiom 8):
+\textbf{Proof of (1).} In the real numbers, $0 + 0 = 0$, so by scalar distributivity (V8)
 \[
 0\vec{x} = (0 + 0)\vec{x} = 0\vec{x} + 0\vec{x}.
 \]
-Since $0\vec{x} \in V$ by closure, its additive inverse $-(0\vec{x})$ must exist in $V$ (Axiom 5). Adding this inverse to both sides:
-\begin{align*}
-0\vec{x} + (-(0\vec{x})) &= (0\vec{x} + 0\vec{x}) + (-(0\vec{x})) \\[0.5em]
-\vec{0} &= 0\vec{x} + \bigl(0\vec{x} + (-(0\vec{x}))\bigr) \quad \text{(Associativity)} \\[0.5em]
-\vec{0} &= 0\vec{x} + \vec{0} \quad \text{(Additive Inverse)} \\[0.5em]
-\vec{0} &= 0\vec{x} \quad \text{(Additive Identity)}.
-\end{align*}
-Therefore, $0\vec{x} = \vec{0}$.
+Since $0\vec{x} \in V$ by closure (V6), its additive inverse $-(0\vec{x})$ exists in $V$ (V5). Adding this inverse to both sides:
+\begin{alignat*}{2}
+0\vec{x} + \bigl(-(0\vec{x})\bigr) &= \bigl(0\vec{x} + 0\vec{x}\bigr) + \bigl(-(0\vec{x})\bigr) && \\
+\vec{0} &= 0\vec{x} + \bigl(0\vec{x} + (-(0\vec{x}))\bigr) &\qquad& \text{(by V5 on left, V3 on right)} \\
+\vec{0} &= 0\vec{x} + \vec{0}                              &&       \text{(by V5)} \\
+\vec{0} &= 0\vec{x}                                        &&       \text{(by V4)}
+\end{alignat*}
 
-\vspace{1.5em}
-
-\textbf{Proof of (2):} By the additive identity axiom, $\vec{0} + \vec{0} = \vec{0}$. Multiplying by scalar $t$ and using vector distributivity (Axiom 7):
+\textbf{Proof of (2).} By the additive identity axiom, $\vec{0} + \vec{0} = \vec{0}$. Multiplying by $t$ and using vector distributivity (V7):
 \[
 t\vec{0} = t(\vec{0} + \vec{0}) = t\vec{0} + t\vec{0}.
 \]
-Adding $-(t\vec{0})$ to both sides and associating terms yields $t\vec{0} = \vec{0}$.
+This is the same situation as in (1). Adding $-(t\vec{0})$ to both sides and repeating the same three steps (V5, V3, V4) gives $\vec{0} = t\vec{0}$.
 
-\vspace{1.5em}
+\medskip
+\textbf{Proof of (3).} We show that $(-1)\vec{x}$ behaves exactly as the additive inverse of $\vec{x}$:
+\begin{alignat*}{2}
+\vec{x} + (-1)\vec{x} &= 1\vec{x} + (-1)\vec{x}        &\qquad& \text{(by V10)} \\
+                      &= \bigl(1 + (-1)\bigr)\vec{x}   &&       \text{(by V8)} \\
+                      &= 0\vec{x} = \vec{0}            &&       \text{(by part (1))}
+\end{alignat*}
+So $(-1)\vec{x}$ is an inverse of $\vec{x}$. By uniqueness of inverses (Theorem~\ref{thm:L1-unique}), $(-1)\vec{x} = -\vec{x}$.
 
-\textbf{Proof of (3):} We show that $(-1)\vec{x}$ behaves exactly as the unique additive inverse of $\vec{x}$. We add them together:
-\[
-\vec{x} + (-1)\vec{x} = 1\vec{x} + (-1)\vec{x} = (1 + (-1))\vec{x} = 0\vec{x} = \vec{0}.
-\]
-Since adding $(-1)\vec{x}$ to $\vec{x}$ results in the zero vector, it satisfies the definition of an inverse. By uniqueness of the additive inverse in $V$, $(-1)\vec{x} = -\vec{x}$.
-
-\vspace{1.5em}
-
-\textbf{Proof of (4):} Suppose $t\vec{x} = \vec{0}$. If $t = 0$, the claim holds. If $t \neq 0$, the multiplicative inverse $t^{-1} \in \mathbb{R}$ exists. Multiplying both sides:
-\[
-t^{-1}(t\vec{x}) = t^{-1}\vec{0} \implies (t^{-1}t)\vec{x} = \vec{0} \implies 1\vec{x} = \vec{0} \implies \vec{x} = \vec{0}.
-\]
+\medskip
+\textbf{Proof of (4).} Suppose $t\vec{x} = \vec{0}$. If $t = 0$, the claim holds. If $t \neq 0$, then $t^{-1} \in \mathbb{R}$ exists, and multiplying both sides by $t^{-1}$:
+\begin{alignat*}{2}
+t^{-1}(t\vec{x}) &= t^{-1}\vec{0} && \\
+(t^{-1}t)\vec{x} &= \vec{0}       &\qquad& \text{(by V9 on left, part (2) on right)} \\
+\vec{x}          &= \vec{0}       &&       \text{(by $t^{-1}t = 1$, then V10)}
+\end{alignat*}
+So whenever $t \neq 0$, we are forced to have $\vec{x} = \vec{0}$.
 \end{proof}
 
-\vspace{2em}
+\begin{example}[Using the Properties]
+Let $V$ be a vector space, $\vec{x} \in V$ and $t \in \mathbb{R}$. Show that $(-t)\vec{x} = -(t\vec{x})$.
+
+\begin{solution}
+Using the theorem above instead of going back to the axioms:
+\begin{alignat*}{2}
+(-t)\vec{x} &= \bigl((-1)t\bigr)\vec{x} &\qquad& \text{(arithmetic in $\mathbb{R}$)} \\
+            &= (-1)(t\vec{x})           &&       \text{(by V9)} \\
+            &= -(t\vec{x})               &&       \text{(by part (3), applied to $t\vec{x}$)}
+\end{alignat*}
+\end{solution}
+\end{example}
+
 % =========================================================================
 \subsection{Subspaces and the Subspace Test}
-\vspace{1em}
 
-\textbf{Intuition:} A subspace is simply a smaller, self-contained vector space living inside a larger one (for example, a 2D plane living inside a 3D space). 
-Instead of verifying all 10 axioms to prove a subset is a vector space, we can take a shortcut. Since the subset inherits properties like commutativity and distributivity from the parent space, we only need to check if the subset is a "closed system." If it contains the origin, and doesn't spill out of its boundaries when we add or scale elements, it is a subspace.
+\begin{intuition}
+A subspace is simply a smaller, self-contained vector space living inside a larger one (for example, a 2D plane living inside a 3D space). Instead of verifying all 10 axioms to prove a subset is a vector space, we can take a shortcut. Since the subset inherits properties like commutativity and distributivity from the parent space, we only need to check if the subset is a ``closed system.'' If it contains the origin, and doesn't spill out of its boundaries when we add or scale elements, it is a subspace.
+\end{intuition}
 
-\vspace{1.5em}
-
-\noindent\textbf{Definition (Subspace).} \\[0.5em]
+\begin{definition}[Subspace]
 Let $V$ be a vector space over $\mathbb{R}$. A subset $U \subseteq V$ is called a \textbf{subspace} of $V$ if $U$ is itself a vector space over $\mathbb{R}$ under the addition and scalar multiplication operations inherited from $V$.
+\end{definition}
 
-\vspace{1.5em}
+\begin{example}[Using the Definition Directly]
+In $\mathbb{R}^2$, consider the $x$-axis and a horizontal line shifted up by $1$:
+\[
+U = \left\{ \begin{bmatrix} a \\ 0 \end{bmatrix} \;\middle|\; a \in \mathbb{R} \right\},
+\qquad
+L = \left\{ \begin{bmatrix} a \\ 1 \end{bmatrix} \;\middle|\; a \in \mathbb{R} \right\}.
+\]
+Which of these is a subspace of $\mathbb{R}^2$?
 
-\noindent\textbf{Theorem (Subspace Test).} \\[0.5em]
+\begin{solution}
+For $U$: adding and scaling keeps the second entry at $0$,
+\[
+\begin{bmatrix} a \\ 0 \end{bmatrix} + \begin{bmatrix} b \\ 0 \end{bmatrix} = \begin{bmatrix} a + b \\ 0 \end{bmatrix} \in U,
+\qquad
+c\begin{bmatrix} a \\ 0 \end{bmatrix} = \begin{bmatrix} ca \\ 0 \end{bmatrix} \in U.
+\]
+The zero vector is in $U$ (take $a = 0$), and the inverse of a vector in $U$ is also in $U$ (replace $a$ by $-a$). Every other axiom is an equation that already holds in $\mathbb{R}^2$. So $U$ is a vector space on its own, and hence a subspace.
+
+For $L$: adding two vectors of $L$ leaves $L$,
+\[
+\begin{bmatrix} 0 \\ 1 \end{bmatrix} + \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 2 \end{bmatrix} \notin L,
+\]
+so V1 fails and $L$ is not a subspace.
+
+Notice what we actually had to check for $U$: the zero vector and the two closure properties. Everything else came for free. That is exactly the shortcut below.
+\end{solution}
+\end{example}
+
+\begin{theorem}[Subspace Test]
 Let $V$ be a vector space over $\mathbb{R}$. A subset $U \subseteq V$ is a subspace of $V$ if and only if:
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item $\vec{0} \in U$, where $\vec{0}$ is the zero vector of $V$ (in particular, this proves $U \neq \emptyset$).
-    \item For all $\vec{x}, \vec{y} \in U$, $\vec{x} + \vec{y} \in U$ (\textbf{Closure under vector addition}).
-    \item For all $\alpha \in \mathbb{R}$ and $\vec{x} \in U$, $\alpha \vec{x} \in U$ (\textbf{Closure under scalar multiplication}).
+\begin{enumerate}
+    \item $\vec{0} \in U$, where $\vec{0}$ is the zero vector of $V$ (in particular, $U \neq \emptyset$),
+    \item for all $\vec{x}, \vec{y} \in U$, $\vec{x} + \vec{y} \in U$ \quad (\textbf{closure under addition}),
+    \item for all $\alpha \in \mathbb{R}$ and $\vec{x} \in U$, $\alpha \vec{x} \in U$ \quad (\textbf{closure under scalar multiplication}).
 \end{enumerate}
-
-\vspace{1em}
+\end{theorem}
 
 \begin{proof}
-\noindent\textbf{($\implies$)} If $U$ is a subspace, it satisfies all vector space axioms on its own. In particular, it must be closed under addition and scalar multiplication, and contain an additive identity $\vec{0}_U \in U$. 
-Since $\vec{0}_U + \vec{0}_U = \vec{0}_U$, adding the inverse $-\vec{0}_U$ computed in $V$ gives $\vec{0}_U = \vec{0}_V$.
+\textbf{($\Longrightarrow$)} If $U$ is a subspace, it satisfies all the axioms on its own. In particular it is closed under addition (V1) and scalar multiplication (V6), which gives (2) and (3). For (1), $U$ is non-empty, so pick any $\vec{x} \in U$. By closure $0\vec{x} \in U$, and $0\vec{x} = \vec{0}$ by Theorem~\ref{thm:L1-arith}(1). So $\vec{0} \in U$.
 
-\vspace{1.5em}
-
-\noindent\textbf{($\impliedby$)} Assume conditions (1), (2), and (3) hold. Closure under addition and scalar multiplication, as well as the existence of the additive identity, are directly satisfied by the assumptions. 
-For any $\vec{x} \in U$, setting $\alpha = -1$ ensures that $-\vec{x} = (-1)\vec{x} \in U$.
-The remaining algebraic axioms (commutativity, associativity, and distributivity) hold for all elements in $U$ automatically because they hold throughout the larger space $V$. Thus, $U$ is a valid vector space.
+\medskip
+\textbf{($\Longleftarrow$)} Assume (1), (2) and (3). We check the ten axioms for $U$:
+\begin{itemize}
+    \item \textbf{V1, V6:} these are exactly conditions (2) and (3).
+    \item \textbf{V4:} $\vec{0} \in U$ by (1), and $\vec{x} + \vec{0} = \vec{x}$ already holds in $V$.
+    \item \textbf{V5:} for $\vec{x} \in U$, condition (3) with $\alpha = -1$ gives $(-1)\vec{x} \in U$, and $(-1)\vec{x} = -\vec{x}$ by Theorem~\ref{thm:L1-arith}(3).
+    \item \textbf{V2, V3, V7 to V10:} these are equations that hold for \emph{all} vectors of $V$, so they hold for the vectors in $U$.
+\end{itemize}
+Thus $U$ is a vector space, and so a subspace of $V$.
 \end{proof}
 
-\vspace{2em}
-% =========================================================================
-\subsection*{Worked Examples: Subspace Analysis}
-\vspace{1em}
+\begin{remark}
+Condition (1) is the quickest check, so always do it first. If $\vec{0} \notin U$, you are done: $U$ is not a subspace. But $\vec{0} \in U$ on its own proves nothing, you still need both closure conditions.
+\end{remark}
 
-\noindent\textbf{Example 1 (Polynomial with Root Constraint).} \\[0.5em]
-Let $V = P_2(\mathbb{R})$. Define the subset:
-\[ 
+\begin{remark}
+Every vector space $V$ has two \textbf{trivial subspaces}: $\{\vec{0}\}$ and $V$ itself. Also, a subspace has to be a \emph{subset} of $V$, so $\mathbb{R}^2$ is not a subspace of $\mathbb{R}^3$ (its vectors have two entries, not three). More generally, $\mathbb{R}^k$ is not a subspace of $\mathbb{R}^n$ whenever $k \neq n$.
+\end{remark}
+
+\subsubsection{Geometric Picture}
+
+In $\mathbb{R}^2$ and $\mathbb{R}^3$, subspaces are exactly the ``flat'' sets passing through the origin:
+\begin{itemize}
+    \item subspaces of $\mathbb{R}^2$: $\{\vec{0}\}$, lines through the origin, and $\mathbb{R}^2$;
+    \item subspaces of $\mathbb{R}^3$: $\{\vec{0}\}$, lines through the origin, planes through the origin, and $\mathbb{R}^3$.
+\end{itemize}
+Anything curved (like a parabola), anything shifted off the origin (like the line $y = x + 1$), or anything with an edge (like a quadrant) fails.
+
+% =========================================================================
+\subsection{Worked Examples: Subspace Analysis}
+
+\begin{formula}[How to Run the Subspace Test]
+\textbf{To prove $U$ is a subspace:}
+\begin{enumerate}
+    \item Show the zero vector of $V$ satisfies the condition that defines $U$.
+    \item Take two \emph{general} elements of $U$, write down what membership means, and show their sum satisfies the same condition.
+    \item Take a \emph{general} element of $U$ and a general scalar $\alpha$, and show the scaled element satisfies the condition.
+\end{enumerate}
+\textbf{To prove $U$ is not a subspace:} find \emph{one} condition that fails, using specific numbers as a counterexample.
+\end{formula}
+
+\begin{example}[Polynomial with Root Constraint]
+Let $V = P_2(\mathbb{R})$ and
+\[
 U = \{p(x) \in P_2(\mathbb{R}) \mid p(3) = 0\}.
 \]
 Prove that $U$ is a subspace of $P_2(\mathbb{R})$.
 
-\vspace{1em}
+\begin{solution}
+We test the three conditions of the Subspace Test.
 
-\begin{proof}
-We test the three conditions of the Subspace Test systematically:
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item \textbf{Zero Vector:} The zero polynomial in $P_2(\mathbb{R})$ is $z(x) = 0 + 0x + 0x^2$. Evaluating at $x = 3$ gives $z(3) = 0$. Because it satisfies the condition $p(3)=0$, we conclude $z \in U$.
-    \item \textbf{Closure under Addition:} Let $p(x), q(x) \in U$. By definition, this means $p(3) = 0$ and $q(3) = 0$. Consider their sum evaluated at $x = 3$:
-    \[
-    (p + q)(3) = p(3) + q(3) = 0 + 0 = 0.
-    \]
-    Since the sum evaluated at 3 is zero, $p + q \in U$.
-    \item \textbf{Closure under Scalar Multiplication:} Let $p(x) \in U$ and $\alpha \in \mathbb{R}$. Then:
-    \[
-    (\alpha p)(3) = \alpha \cdot p(3) = \alpha(0) = 0.
-    \]
-    Thus, $\alpha p \in U$.
-\end{enumerate}
-By the Subspace Test, all conditions hold, so $U$ is a subspace of $P_2(\mathbb{R})$.
-\end{proof}
+\medskip
+\textbf{Zero vector.} The zero polynomial $z(x) = 0 + 0x + 0x^2$ gives $z(3) = 0$, so $z \in U$.
 
-\vspace{2em}
-
-\noindent\textbf{Example 2 (Traceless Matrices).} \\[0.5em]
-Let $V = M_{2\times 2}(\mathbb{R})$. Define:
+\medskip
+\textbf{Closure under addition.} Let $p, q \in U$, so $p(3) = 0$ and $q(3) = 0$. Then
 \[
-W = \{ A \in M_{2\times 2}(\mathbb{R}) \mid \operatorname{tr}(A) = 0 \}.
+(p + q)(3) = p(3) + q(3) = 0 + 0 = 0,
 \]
-Recall that for $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$, the trace is the sum of the main diagonal $\operatorname{tr}(A) = a + d$. Show that $W$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
+so $p + q \in U$.
 
-\vspace{1em}
-
-\begin{proof}
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item \textbf{Zero Vector:} The zero matrix $O_{2\times 2} = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}$ satisfies $\operatorname{tr}(O_{2\times 2}) = 0 + 0 = 0$. Hence, $O_{2\times 2} \in W$.
-    \item \textbf{Closure under Addition:} Let $A, B \in W$, meaning $\operatorname{tr}(A) = 0$ and $\operatorname{tr}(B) = 0$. Because the trace operator is linear over matrix addition:
-    \[
-    \operatorname{tr}(A + B) = \operatorname{tr}(A) + \operatorname{tr}(B) = 0 + 0 = 0.
-    \]
-    Hence, $A + B \in W$.
-    \item \textbf{Closure under Scalar Multiplication:} Let $A \in W$ and $\alpha \in \mathbb{R}$. Again, trace is linear over scalar multiplication:
-    \[
-    \operatorname{tr}(\alpha A) = \alpha \operatorname{tr}(A) = \alpha(0) = 0.
-    \]
-    Hence, $\alpha A \in W$.
-\end{enumerate}
-Thus, $W$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
-\end{proof}
-
-\vspace{2em}
-
-\noindent\textbf{Example 3 (Affine Coefficient Failure).} \\[0.5em]
-Let $V = P_2(\mathbb{R})$ and consider the subset:
+\medskip
+\textbf{Closure under scalar multiplication.} Let $p \in U$ and $\alpha \in \mathbb{R}$. Then
 \[
-S = \{ p(x) = ax^2 + bx + c \in P_2(\mathbb{R}) \mid a - 2b + c = 3 \}.
+(\alpha p)(3) = \alpha\, p(3) = \alpha \cdot 0 = 0,
 \]
-Determine whether $S$ is a subspace of $V$.
+so $\alpha p \in U$.
 
-\vspace{1.5em}
+All three conditions hold, so $U$ is a subspace of $P_2(\mathbb{R})$.
+\end{solution}
+\end{example}
 
-\noindent\textbf{Solution:} \\[0.5em]
-We always check the zero vector first. The zero polynomial $z(x) = 0x^2 + 0x + 0$ has coefficients $a = 0, b = 0, c = 0$. Evaluating the subset's defining equation with these coefficients:
+\begin{example}[Traceless Matrices]
+Let $V = M_{2\times 2}(\mathbb{R})$ and
 \[
-a - 2b + c = 0 - 2(0) + 0 = 0 \neq 3.
+W = \{ A \in M_{2\times 2}(\mathbb{R}) \mid \operatorname{tr}(A) = 0 \},
 \]
-Because the zero polynomial does not satisfy the condition, it is not in $S$. Condition (1) of the Subspace Test fails immediately. A subspace \textit{must} always contain the zero vector. 
-
-Geometrically, in the "space" of coefficients, this represents a plane that has been shifted away from the origin by 3 units. Thus, $S$ is \textbf{not} a subspace of $P_2(\mathbb{R})$.
-
-\vspace{2em}
-
-\noindent\textbf{Example 4 (A Plane Through the Origin in $\mathbb{R}^3$).} \\[0.5em]
-Let $V = \mathbb{R}^3$. Consider the subset $U$ representing a plane passing through the origin:
+where the trace is the sum of the main diagonal:
 \[
-U = \left\{ \begin{bmatrix} x \\ y \\ z \end{bmatrix} \in \mathbb{R}^3 \mathrel{\Bigg|} x - 2y + 3z = 0 \right\}
+\operatorname{tr}\begin{bmatrix} a & b \\ c & d \end{bmatrix} = a + d.
+\]
+Show that $W$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
+
+\begin{solution}
+\textbf{Zero vector.} $\operatorname{tr}(O_{2\times 2}) = 0 + 0 = 0$, so $O_{2\times 2} \in W$.
+
+\medskip
+\textbf{Closure under addition.} Let $A, B \in W$, with
+\[
+A = \begin{bmatrix} a_1 & b_1 \\ c_1 & d_1 \end{bmatrix}, \qquad
+B = \begin{bmatrix} a_2 & b_2 \\ c_2 & d_2 \end{bmatrix},
+\]
+so $a_1 + d_1 = 0$ and $a_2 + d_2 = 0$. Then
+\[
+\operatorname{tr}(A + B) = (a_1 + a_2) + (d_1 + d_2) = (a_1 + d_1) + (a_2 + d_2) = 0,
+\]
+so $A + B \in W$.
+
+\medskip
+\textbf{Closure under scalar multiplication.} Let $A \in W$ and $\alpha \in \mathbb{R}$. Then
+\[
+\operatorname{tr}(\alpha A) = \alpha a_1 + \alpha d_1 = \alpha(a_1 + d_1) = 0,
+\]
+so $\alpha A \in W$.
+
+Thus $W$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
+\end{solution}
+\end{example}
+
+\begin{example}[Matrices with Equal Off-Diagonal Entries]
+Determine whether
+\[
+S = \left\{ \begin{bmatrix} a_1 & a_2 \\ a_3 & a_4 \end{bmatrix} \in M_{2\times 2}(\mathbb{R}) \;\middle|\; a_2 = a_3 \right\}
+\]
+is a subspace of $M_{2\times 2}(\mathbb{R})$.
+
+\begin{solution}
+\textbf{Zero vector.} The zero matrix has $a_2 = 0 = a_3$, so $O_{2\times 2} \in S$.
+
+\medskip
+\textbf{Closure under addition.} Let $A, B \in S$, so $a_2 = a_3$ and $b_2 = b_3$. Then
+\[
+A + B = \begin{bmatrix} a_1 + b_1 & a_2 + b_2 \\ a_3 + b_3 & a_4 + b_4 \end{bmatrix},
+\]
+and the off-diagonal entries are equal since $a_2 + b_2 = a_3 + b_3$. So $A + B \in S$.
+
+\medskip
+\textbf{Closure under scalar multiplication.} Let $A \in S$ and $\alpha \in \mathbb{R}$. Then
+\[
+\alpha A = \begin{bmatrix} \alpha a_1 & \alpha a_2 \\ \alpha a_3 & \alpha a_4 \end{bmatrix},
+\]
+and $\alpha a_2 = \alpha a_3$. So $\alpha A \in S$.
+
+Therefore $S$ is a subspace of $M_{2\times 2}(\mathbb{R})$.
+\end{solution}
+\end{example}
+
+\begin{example}[A Plane Through the Origin in $\mathbb{R}^3$]
+Let
+\[
+U = \left\{ \begin{bmatrix} x \\ y \\ z \end{bmatrix} \in \mathbb{R}^3 \;\middle|\; x - 2y + 3z = 0 \right\}.
 \]
 Prove that $U$ is a subspace of $\mathbb{R}^3$.
 
-\vspace{1em}
+\begin{solution}
+\textbf{Zero vector.} $0 - 2(0) + 3(0) = 0$, so $\vec{0} \in U$.
 
-\begin{proof}
-\begin{enumerate}[itemsep=1.5em, topsep=1em]
-    \item \textbf{Zero Vector:} The zero vector $\vec{0} = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}$. Evaluating the condition: $0 - 2(0) + 3(0) = 0$. Thus, $\vec{0} \in U$.
-    \item \textbf{Closure under Addition:} Let $\vec{u} = \begin{bmatrix} x_1 \\ y_1 \\ z_1 \end{bmatrix}$ and $\vec{v} = \begin{bmatrix} x_2 \\ y_2 \\ z_2 \end{bmatrix}$ be in $U$. This implies $x_1 - 2y_1 + 3z_1 = 0$ and $x_2 - 2y_2 + 3z_2 = 0$. 
-    
-    Consider their sum $\vec{u} + \vec{v} = \begin{bmatrix} x_1 + x_2 \\ y_1 + y_2 \\ z_1 + z_2 \end{bmatrix}$. We test the condition:
-    \[
-    (x_1 + x_2) - 2(y_1 + y_2) + 3(z_1 + z_2) = (x_1 - 2y_1 + 3z_1) + (x_2 - 2y_2 + 3z_2) = 0 + 0 = 0.
-    \]
-    Thus, $\vec{u} + \vec{v} \in U$.
-    \item \textbf{Closure under Scalar Multiplication:} Let $\vec{u} \in U$ and $\alpha \in \mathbb{R}$. The scaled vector is $\alpha\vec{u} = \begin{bmatrix} \alpha x_1 \\ \alpha y_1 \\ \alpha z_1 \end{bmatrix}$. Testing the condition:
-    \[
-    (\alpha x_1) - 2(\alpha y_1) + 3(\alpha z_1) = \alpha(x_1 - 2y_1 + 3z_1) = \alpha(0) = 0.
-    \]
-    Thus, $\alpha\vec{u} \in U$.
-\end{enumerate}
+\medskip
+\textbf{Closure under addition.} Let
+\[
+\vec{u} = \begin{bmatrix} x_1 \\ y_1 \\ z_1 \end{bmatrix}, \qquad
+\vec{v} = \begin{bmatrix} x_2 \\ y_2 \\ z_2 \end{bmatrix}
+\]
+be in $U$, so $x_1 - 2y_1 + 3z_1 = 0$ and $x_2 - 2y_2 + 3z_2 = 0$. The entries of $\vec{u} + \vec{v}$ satisfy
+\begin{align*}
+(x_1 + x_2) - 2(y_1 + y_2) + 3(z_1 + z_2)
+&= (x_1 - 2y_1 + 3z_1) + (x_2 - 2y_2 + 3z_2) \\
+&= 0 + 0 = 0,
+\end{align*}
+so $\vec{u} + \vec{v} \in U$.
+
+\medskip
+\textbf{Closure under scalar multiplication.} Let $\vec{u} \in U$ and $\alpha \in \mathbb{R}$. The entries of $\alpha\vec{u}$ satisfy
+\[
+(\alpha x_1) - 2(\alpha y_1) + 3(\alpha z_1) = \alpha(x_1 - 2y_1 + 3z_1) = \alpha \cdot 0 = 0,
+\]
+so $\alpha\vec{u} \in U$.
+
 Since it passes the Subspace Test, the plane $U$ is a subspace of $\mathbb{R}^3$.
-\end{proof}
+\end{solution}
+\end{example}
+
+\begin{example}[Affine Coefficient Failure]
+Let $V = P_2(\mathbb{R})$ and
+\[
+S = \{ ax^2 + bx + c \in P_2(\mathbb{R}) \mid a - 2b + c = 3 \}.
+\]
+Determine whether $S$ is a subspace of $V$.
+
+\begin{solution}
+We always check the zero vector first. The zero polynomial has $a = b = c = 0$, and
+\[
+a - 2b + c = 0 \neq 3.
+\]
+So the zero polynomial is not in $S$, and condition (1) of the Subspace Test fails immediately. A subspace \emph{must} always contain the zero vector.
+
+Geometrically, in the ``space'' of coefficients $(a, b, c)$, this is a plane that has been shifted off the origin. Thus $S$ is \textbf{not} a subspace of $P_2(\mathbb{R})$.
+\end{solution}
+\end{example}
+
+\begin{example}[Contains Zero, Still Fails]
+Determine whether
+\[S = \left\{ \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} \in \mathbb{R}^3 \;\middle\vert{}\; x_1 = x_2 x_3 \right\}\]
+is a subspace of $\mathbb{R}^3$.
+
+\begin{solution}
+The zero vector passes, since $0 = 0 \cdot 0$, so we look at closure. The condition multiplies two entries together, which is a red flag (it is not linear), so we look for a counterexample. Take
+\[\vec{x} = \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix}, \qquad \vec{y} = \begin{bmatrix} 2 \\ 1 \\ 2 \end{bmatrix}, \qquad \vec{x} + \vec{y} = \begin{bmatrix} 3 \\ 2 \\ 3 \end{bmatrix}.\]
+Both $\vec{x}$ and $\vec{y}$ are in $S$ since $1 = 1 \cdot 1$ and $2 = 1 \cdot 2$. But for the sum, $3 \neq 2 \cdot 3$, so $\vec{x} + \vec{y} \notin S$. Since $S$ is not closed under addition, it is \textbf{not} a subspace of $\mathbb{R}^3$.
+\end{solution}
+\end{example}
+
+\begin{example}[The First Quadrant]
+Let
+\[Q = \left\{ \begin{bmatrix} x \\ y \end{bmatrix} \in \mathbb{R}^2 \;\middle\vert{}\; x \ge 0, \ y \ge 0 \right\}.\]
+Is $Q$ a subspace of $\mathbb{R}^2$?
+
+\begin{solution}
+The zero vector is in $Q$, and $Q$ is even closed under addition (adding two non-negative numbers gives a non-negative number). But scalar multiplication fails:
+\[(-1)\begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} -1 \\ -1 \end{bmatrix} \notin Q.\]
+So $Q$ is \textbf{not} a subspace of $\mathbb{R}^2$. This is why we need all three conditions: passing two of them is not enough.
+\end{solution}
+\end{example}

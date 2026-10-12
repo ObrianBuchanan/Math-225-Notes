@@ -1,38 +1,188 @@
 \documentclass[11pt,letterpaper]{article}
 
+% ------------------------------------------------------------
+%  Packages
+% ------------------------------------------------------------
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage{xcolor}
-\usepackage{tcolorbox} % Added to make "Intuition" and "Formulas" stand out
-\usepackage[hidelinks]{hyperref} % hidelinks makes TOC clickable but keeps text normal color
+\usepackage{etoolbox}
+\usepackage{microtype}
+\usepackage[skins,breakable]{tcolorbox}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
 
-% Global list spacing for readability
-\setlist{nosep, leftmargin=1.5em, itemsep=0.8em, topsep=0.5em}
+\hypersetup{
+  pdftitle  = {MATH 225 -- Applied Linear Algebra II},
+  pdfauthor = {Obrian Buchanan}
+}
 
-% Clean, professional header formatting
-\titleformat{\section}{\Large\bfseries\color{black}}{}{0em}{}[\titlerule]
-\titleformat{\subsection}{\large\bfseries\color{black}}{}{0em}{}
-\titleformat{\subsubsection}{\normalsize\bfseries\color{black}}{}{0em}{}
+% ------------------------------------------------------------
+%  Colours (clean, airy, modern)
+% ------------------------------------------------------------
+\definecolor{ink}{HTML}{1E293B}        % slate-900 (crisp modern charcoal)
+\definecolor{textsub}{HTML}{64748B}    % slate-500 (subtle secondary text)
 
-% Custom environments for studying
-\newtcolorbox{intuition}{colback=gray!5!white,colframe=gray!50!black,title=\textbf{Intuition \& Concepts}}
-\newtcolorbox{formula}{colback=blue!5!white,colframe=blue!50!black,title=\textbf{Core Formula / Checklist}}
+% Light, translucent-style background tints (96-98% lightness)
+\definecolor{defshade}{HTML}{F8FAFC}   % slate-50 (ultra-light cool frost)
+\definecolor{defborder}{HTML}{E2E8F0}  % slate-200 (hairline border)
+\definecolor{thmshade}{HTML}{FBFBF9}   % warm alabaster tint
+\definecolor{thmborder}{HTML}{E7E5E4}  % stone-200 (hairline border)
 
+% ------------------------------------------------------------
+%  Spacing
+% ------------------------------------------------------------
+\linespread{1.12}
+\setlength{\parskip}{0.55em}
+\setlength{\jot}{7pt}
+
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}{9pt plus 2pt minus 2pt}%
+  \setlength{\belowdisplayskip}{9pt plus 2pt minus 2pt}%
+  \setlength{\abovedisplayshortskip}{5pt plus 2pt}%
+  \setlength{\belowdisplayshortskip}{7pt plus 2pt}%
+}
+
+\setlist{leftmargin=1.8em, topsep=0.5em, itemsep=0.5em, parsep=0.25em}
+
+% Matrices: a little more room between rows and columns
+\renewcommand{\arraystretch}{1.15}
+\setlength{\arraycolsep}{4pt}
+
+% Grey justification next to a derivation step, e.g. \by{V4}
+\newcommand{\by}[1]{\text{\small\color{gray!80!black}#1}}
+
+% ------------------------------------------------------------
+%  Headings
+% ------------------------------------------------------------
+% Lecture title (section): number hidden in the body, shown in the TOC
+\titleformat{\section}
+  {\LARGE\bfseries\color{ink}}{}{0em}{}
+\titlespacing*{\section}{0pt}{0pt}{2.2em}
+
+% Subsection: numbered so each part is easy to spot
+\titleformat{\subsection}
+  {\Large\bfseries\color{ink}}{\thesubsection}{0.8em}{}
+\titlespacing*{\subsection}{0pt}{2.6em}{1.0em}
+
+% Subsubsection: smaller, unnumbered
+\titleformat{\subsubsection}
+  {\large\bfseries\color{ink}}{}{0em}{}
+\titlespacing*{\subsubsection}{0pt}{1.8em}{0.6em}
+
+\setcounter{tocdepth}{2}
+
+% ------------------------------------------------------------
+%  Numbering: one shared counter per lecture (Def 1.1, Thm 1.2, Ex 1.3, ...)
+% ------------------------------------------------------------
+\newcounter{note}[section]
+\renewcommand{\thenote}{\thesection.\arabic{note}}
+
+% ------------------------------------------------------------
+%  Box styles (Modern frosted card aesthetic)
+% ------------------------------------------------------------
+\tcbset{
+  notebox/.style={
+    enhanced,
+    boxrule=0.6pt,
+    arc=4pt,
+    left=14pt, right=14pt, top=10pt, bottom=10pt,
+    before skip=1.5em, after skip=1.5em,
+    detach title,
+    fonttitle=\bfseries\small, coltitle=ink,
+    before upper={\tcbtitle\par\vspace{0.4em}},
+    opacityback=0.9
+  },
+  defbox/.style={
+    notebox,
+    colback=defshade,
+    colframe=defborder
+  },
+  thmbox/.style={
+    notebox,
+    colback=thmshade,
+    colframe=thmborder
+  }
+}
+
+% Builds the box title, e.g. "Definition 1.2 (Subspace)"
+\newcommand{\notetitle}[2]{#1~\thenote\ifstrempty{#2}{}{\ (#2)}}
+
+% Definition: frosted slate card
+\NewDocumentEnvironment{definition}{O{}}
+  {\refstepcounter{note}\begin{tcolorbox}[defbox, title={\notetitle{Definition}{#1}}]}
+  {\end{tcolorbox}}
+
+% Theorem-type results: frosted stone card
+\NewDocumentEnvironment{theorem}{O{}}
+  {\refstepcounter{note}\begin{tcolorbox}[thmbox, title={\notetitle{Theorem}{#1}}]}
+  {\end{tcolorbox}}
+
+\NewDocumentEnvironment{proposition}{O{}}
+  {\refstepcounter{note}\begin{tcolorbox}[thmbox, title={\notetitle{Proposition}{#1}}]}
+  {\end{tcolorbox}}
+
+\NewDocumentEnvironment{lemma}{O{}}
+  {\refstepcounter{note}\begin{tcolorbox}[thmbox, title={\notetitle{Lemma}{#1}}]}
+  {\end{tcolorbox}}
+
+\NewDocumentEnvironment{corollary}{O{}}
+  {\refstepcounter{note}\begin{tcolorbox}[thmbox, title={\notetitle{Corollary}{#1}}]}
+  {\end{tcolorbox}}
+
+% Key formula / checklist / method summary
+\NewDocumentEnvironment{formula}{O{Key Formula / Checklist}}
+  {\begin{tcolorbox}[thmbox, title={#1}]}
+  {\end{tcolorbox}}
+
+% Example: no box, clear heading with space around it
+\NewDocumentEnvironment{example}{O{}}
+  {\par\addvspace{1.6em}\refstepcounter{note}%
+   \noindent{\bfseries\color{ink}\notetitle{Example}{#1}}\par\nopagebreak}
+  {\par\addvspace{1.6em}}
+
+% Solution: bold label, no end box
+\NewDocumentEnvironment{solution}{}
+  {\par\addvspace{0.4em}\noindent{\bfseries\color{ink}Solution.}\ }
+  {\par}
+
+% Intuition: plain paragraph with a coloured label
+\NewDocumentEnvironment{intuition}{}
+  {\par\addvspace{0.8em}\noindent{\bfseries\color{ink}Intuition.}\ }
+  {\par\addvspace{0.8em}}
+
+% Remark / note: plain paragraph with a label
+\NewDocumentEnvironment{remark}{}
+  {\par\addvspace{0.6em}\noindent{\bfseries\color{ink}Remark.}\ }
+  {\par\addvspace{0.6em}}
+
+% Proofs: space before and after
+\AtBeginEnvironment{proof}{\vspace{0.3em}}
+\AtEndEnvironment{proof}{\vspace{0.3em}}
+
+% ============================================================
+%  Document Body
+% ============================================================
 \begin{document}
 
-% Standalone Centered Title Page
+% ------------------------------------------------------------
+%  Title page
+% ------------------------------------------------------------
+\hypersetup{pageanchor=false}
 \begin{titlepage}
     \vspace*{\fill}
     \begin{center}
-        {\Huge\bfseries MATH 225 -- Applied Linear Algebra II\par}
-        \vspace{0.5cm}
-        {\LARGE Course Notes\par}
-        \vspace{0.3cm}
-        {\Large Obrian Buchanan\par}
+        {\Huge\bfseries\color{ink} MATH 225\par}
+        \vspace{0.4cm}
+        {\LARGE\bfseries\color{ink} Applied Linear Algebra II\par}
+        \vspace{1.2cm}
+        {\Large Course Notes\par}
+        \vspace{0.6cm}
+        {\large Obrian Buchanan\par}
         \vspace{0.3cm}
         {\large University of Waterloo\par}
         \vspace{0.3cm}
@@ -40,12 +190,17 @@
     \end{center}
     \vspace*{\fill}
 \end{titlepage}
+\hypersetup{pageanchor=true}
 
-% Table of Contents
-\tableofcontents
+% ------------------------------------------------------------
+%  Table of contents
+% ------------------------------------------------------------
+{\setlength{\parskip}{0.3em}\tableofcontents}
 \newpage
 
-% Lecture Inclusions
+% ------------------------------------------------------------
+%  Lectures
+% ------------------------------------------------------------
 \input{lecture01.tex}
 \newpage
 \input{lecture02.tex}
