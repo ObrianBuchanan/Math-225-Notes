@@ -1,0 +1,409 @@
+\section{Lecture 4: Coordinates and Change of Basis}
+
+\begin{intuition}
+A basis is a coordinate system for a vector space. Once we fix a basis, every vector has exactly one ``address'': the list of coefficients needed to build it. That list is just a column of numbers in $\mathbb{R}^n$, so no matter how abstract the vectors are (polynomials, matrices, functions), we can do all our computations with plain columns. Changing the basis changes the address, and the change of coordinates matrix is the tool that translates addresses from one basis to another.
+\end{intuition}
+
+% =========================================================================
+\subsection{Coordinates with Respect to a Basis}
+
+\begin{definition}[Coordinate Vector]
+Let $\mathcal{B} = \{\vec{v}_1, \dots, \vec{v}_n\}$ be a basis for an $n$-dimensional vector space $V$, and let $\vec{v} \in V$. Then
+\[
+\vec{v} = c_1\vec{v}_1 + c_2\vec{v}_2 + \dots + c_n\vec{v}_n = \sum_{i=1}^n c_i\vec{v}_i
+\]
+for some $c_1, \dots, c_n \in \mathbb{R}$. The \textbf{coordinate vector of $\vec{v}$ with respect to $\mathcal{B}$} is
+\[
+[\vec{v}]_{\mathcal{B}} = \begin{bmatrix} c_1 \\ \vdots \\ c_n \end{bmatrix} \in \mathbb{R}^n.
+\]
+We also call these the \textbf{$\mathcal{B}$-coordinates} of $\vec{v}$.
+\end{definition}
+
+\begin{remark}
+The coordinate vector $[\vec{v}]_{\mathcal{B}}$ is \emph{unique}. Since $\mathcal{B}$ spans $V$, the coefficients exist, and since $\mathcal{B}$ is independent, there is only one choice for them (the Unique Representation Theorem from Lecture 2). This is exactly why we need a basis, and not just any spanning set, to define coordinates.
+\end{remark}
+
+\begin{formula}[How to Find $\lbrack\vec{v}\rbrack_{\mathcal{B}}$]
+\begin{enumerate}
+    \item Set $\vec{v} = c_1\vec{v}_1 + \dots + c_n\vec{v}_n$.
+    \item Compare entries (or coefficients) to get a linear system in $c_1, \dots, c_n$.
+    \item Solve. The solution, written as a column, is $[\vec{v}]_{\mathcal{B}}$.
+\end{enumerate}
+\end{formula}
+
+\begin{example}[Coordinates in $\mathbb{R}^2$ Under Three Bases]
+Let
+\[
+\vec{v} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}.
+\]
+Find the coordinates of $\vec{v}$ with respect to each of the bases
+\[
+\mathcal{E} = \left\{ \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \end{bmatrix} \right\},
+\qquad
+\mathcal{B} = \left\{ \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \end{bmatrix} \right\},
+\qquad
+\mathcal{C} = \left\{ \begin{bmatrix} 0 \\ 1 \end{bmatrix}, \begin{bmatrix} 1 \\ 1 \end{bmatrix} \right\}.
+\]
+
+\begin{solution}
+\textbf{Standard basis $\mathcal{E}$.} The coefficients are just the entries:
+\[
+\begin{bmatrix} 2 \\ 3 \end{bmatrix} = 2\begin{bmatrix} 1 \\ 0 \end{bmatrix} + 3\begin{bmatrix} 0 \\ 1 \end{bmatrix}
+\implies
+[\vec{v}]_{\mathcal{E}} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}.
+\]
+
+\textbf{Basis $\mathcal{B}$.} We need
+\[
+c_1\begin{bmatrix} 1 \\ 1 \end{bmatrix} + c_2\begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}.
+\]
+The first entry gives $c_1 = 2$, and the second gives $c_1 + c_2 = 3$, so $c_2 = 1$. Hence
+\[
+[\vec{v}]_{\mathcal{B}} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}.
+\]
+
+\textbf{Basis $\mathcal{C}$.} We need
+\[
+c_1\begin{bmatrix} 0 \\ 1 \end{bmatrix} + c_2\begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}.
+\]
+The first entry gives $c_2 = 2$, and the second gives $c_1 + c_2 = 3$, so $c_1 = 1$. Hence
+\[
+[\vec{v}]_{\mathcal{C}} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}.
+\]
+Same vector, three different addresses: the coordinates depend completely on the basis.
+\end{solution}
+\end{example}
+
+\begin{remark}
+\textbf{Order matters.} In the example above, $\mathcal{B}$ and $\mathcal{C}$ contain exactly the same two vectors, just listed in a different order. As sets they are equal, but
+\[
+[\vec{v}]_{\mathcal{B}} = \begin{bmatrix} 2 \\ 1 \end{bmatrix} \neq \begin{bmatrix} 1 \\ 2 \end{bmatrix} = [\vec{v}]_{\mathcal{C}}.
+\]
+So for coordinates, the order of the basis vectors matters, and we do \emph{not} treat $\mathcal{B}$ and $\mathcal{C}$ as the same basis. From now on, every basis is an \textbf{ordered basis}: the first coordinate always goes with the first basis vector, the second with the second, and so on.
+\end{remark}
+
+\begin{example}[From Coordinates Back to the Vector]
+Let $V = P_2(\mathbb{R})$ with basis $\mathcal{B} = \{1 + x, \ 1 - x^2, \ 1 + x + x^2\}$. If
+\[
+[p(x)]_{\mathcal{B}} = \begin{bmatrix} -2 \\ 5 \\ 1 \end{bmatrix},
+\]
+find $p(x)$.
+
+\begin{solution}
+The coordinates are the coefficients, matched in order with the basis vectors:
+\begin{align*}
+p(x) &= -2(1 + x) + 5(1 - x^2) + 1(1 + x + x^2) \\
+     &= (-2 + 5 + 1) + (-2 + 1)x + (-5 + 1)x^2 \\
+     &= 4 - x - 4x^2.
+\end{align*}
+Going from coordinates to the vector is just plugging in. Going the other way takes a little more work, as the next example shows.
+\end{solution}
+\end{example}
+
+\begin{example}[From the Vector to Its Coordinates]
+With the same basis $\mathcal{B} = \{1 + x, \ 1 - x^2, \ 1 + x + x^2\}$, find $[p]_{\mathcal{B}}$ for $p(x) = 4 - x - 4x^2$.
+
+\begin{solution}
+Set $p(x) = c_1(1 + x) + c_2(1 - x^2) + c_3(1 + x + x^2)$ and group by powers of $x$:
+\[
+4 - x - 4x^2 = (c_1 + c_2 + c_3) + (c_1 + c_3)x + (-c_2 + c_3)x^2.
+\]
+Matching coefficients gives the system
+\begin{alignat*}{2}
+c_1 + c_2 + c_3 &= 4 &\qquad& \by{constants} \\
+c_1 + c_3 &= -1 && \by{$x$ terms} \\
+-c_2 + c_3 &= -4 && \by{$x^2$ terms}
+\end{alignat*}
+Subtracting the second equation from the first gives $c_2 = 5$. Then the third gives $c_3 = -4 + 5 = 1$, and the second gives $c_1 = -1 - 1 = -2$. So
+\[
+[p]_{\mathcal{B}} = \begin{bmatrix} -2 \\ 5 \\ 1 \end{bmatrix},
+\]
+which matches the previous example, as it should.
+\end{solution}
+\end{example}
+
+\begin{example}[Membership and Coordinates in a Subspace of $M_{2 \times 2}(\mathbb{R})$]
+Let
+\[
+\mathcal{B} = \left\{ \begin{bmatrix} 1 & 2 \\ 4 & 1 \end{bmatrix}, \begin{bmatrix} -1 & 3 \\ 6 & 7 \end{bmatrix} \right\}
+\]
+be a basis for a subspace $U$ of $M_{2 \times 2}(\mathbb{R})$. Determine whether
+\[
+A = \begin{bmatrix} 5 & -5 \\ -10 & -19 \end{bmatrix}
+\]
+is in $U$, and if so, find $[A]_{\mathcal{B}}$.
+
+\begin{solution}
+$A \in U$ exactly when there exist $c_1, c_2 \in \mathbb{R}$ with
+\[
+\begin{bmatrix} 5 & -5 \\ -10 & -19 \end{bmatrix} = c_1\begin{bmatrix} 1 & 2 \\ 4 & 1 \end{bmatrix} + c_2\begin{bmatrix} -1 & 3 \\ 6 & 7 \end{bmatrix}.
+\]
+Comparing the four entries gives the linear system
+\begin{alignat*}{2}
+c_1 - c_2 &= 5 &\qquad& \by{top left} \\
+2c_1 + 3c_2 &= -5 && \by{top right} \\
+4c_1 + 6c_2 &= -10 && \by{bottom left} \\
+c_1 + 7c_2 &= -19 && \by{bottom right}
+\end{alignat*}
+From the first equation, $c_1 = 5 + c_2$. Substituting into the second:
+\[
+2(5 + c_2) + 3c_2 = -5 \implies 5c_2 = -15 \implies c_2 = -3, \qquad c_1 = 2.
+\]
+We have four equations but only two unknowns, so we must check the other two:
+\[
+4(2) + 6(-3) = -10 \;\checkmark, \qquad 2 + 7(-3) = -19 \;\checkmark.
+\]
+The system is consistent, so $A \in U$, and
+\[
+[A]_{\mathcal{B}} = \begin{bmatrix} 2 \\ -3 \end{bmatrix}.
+\]
+Notice that $A$ lives in $M_{2 \times 2}(\mathbb{R})$, but its coordinate vector lives in $\mathbb{R}^2$, because $U$ is only 2-dimensional.
+\end{solution}
+\end{example}
+
+% =========================================================================
+\subsection{Coordinates Are Linear}
+
+\begin{theorem}[Linearity of Coordinates]\label{thm:L4-linear}
+Let $\mathcal{B} = \{\vec{v}_1, \dots, \vec{v}_n\}$ be a basis for an $n$-dimensional vector space $V$. Then for any $\vec{x}, \vec{y} \in V$ and $s, t \in \mathbb{R}$,
+\[
+[s\vec{x} + t\vec{y}]_{\mathcal{B}} = s\,[\vec{x}]_{\mathcal{B}} + t\,[\vec{y}]_{\mathcal{B}}.
+\]
+\end{theorem}
+
+\begin{proof}
+Write $\vec{x} = \sum_{i=1}^n a_i\vec{v}_i$ and $\vec{y} = \sum_{i=1}^n b_i\vec{v}_i$, so the $a_i$ and $b_i$ are the entries of $[\vec{x}]_{\mathcal{B}}$ and $[\vec{y}]_{\mathcal{B}}$. Then
+\[
+s\vec{x} + t\vec{y} = \sum_{i=1}^n sa_i\vec{v}_i + \sum_{i=1}^n tb_i\vec{v}_i = \sum_{i=1}^n (sa_i + tb_i)\vec{v}_i.
+\]
+By uniqueness of coordinates, the $\mathcal{B}$-coordinates of $s\vec{x} + t\vec{y}$ are exactly $sa_i + tb_i$:
+\[
+[s\vec{x} + t\vec{y}]_{\mathcal{B}} = \begin{bmatrix} sa_1 + tb_1 \\ \vdots \\ sa_n + tb_n \end{bmatrix} = s\begin{bmatrix} a_1 \\ \vdots \\ a_n \end{bmatrix} + t\begin{bmatrix} b_1 \\ \vdots \\ b_n \end{bmatrix} = s\,[\vec{x}]_{\mathcal{B}} + t\,[\vec{y}]_{\mathcal{B}}.
+\]
+\end{proof}
+
+\begin{remark}
+This says that taking coordinates respects addition and scaling. So any computation in an $n$-dimensional space $V$ can be done entirely in $\mathbb{R}^n$: convert to coordinates, compute with columns, and convert back.
+\end{remark}
+
+\begin{example}[Using Linearity]
+In $\mathbb{R}^2$, let
+\[
+\mathcal{B} = \left\{ \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \end{bmatrix} \right\},
+\qquad
+\vec{x} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}, \qquad \vec{y} = \begin{bmatrix} 1 \\ -1 \end{bmatrix}.
+\]
+Find $[2\vec{x} - 3\vec{y}]_{\mathcal{B}}$ in two ways.
+
+\begin{solution}
+\textbf{Using the theorem.} From the first example, $[\vec{x}]_{\mathcal{B}}$ has entries $2, 1$. For $\vec{y}$, the first entry gives $c_1 = 1$ and the second gives $c_1 + c_2 = -1$, so $c_2 = -2$. Then
+\[
+[2\vec{x} - 3\vec{y}]_{\mathcal{B}} = 2\begin{bmatrix} 2 \\ 1 \end{bmatrix} - 3\begin{bmatrix} 1 \\ -2 \end{bmatrix} = \begin{bmatrix} 1 \\ 8 \end{bmatrix}.
+\]
+
+\textbf{Directly.} First compute the vector:
+\[
+2\vec{x} - 3\vec{y} = \begin{bmatrix} 4 - 3 \\ 6 + 3 \end{bmatrix} = \begin{bmatrix} 1 \\ 9 \end{bmatrix}.
+\]
+Its $\mathcal{B}$-coordinates satisfy $c_1 = 1$ and $c_1 + c_2 = 9$, so $c_2 = 8$. Both methods give the same answer.
+\end{solution}
+\end{example}
+
+% =========================================================================
+\subsection{Change of Coordinates}
+
+\begin{intuition}
+If we know the address of a vector in basis $\mathcal{C}$, we would like a quick way to get its address in basis $\mathcal{B}$ without rebuilding the vector first. Because coordinates are linear, this translation is done by a single matrix.
+\end{intuition}
+
+\begin{definition}[Change of Coordinates Matrix]
+Let $\mathcal{B}$ and $\mathcal{C} = \{\vec{w}_1, \dots, \vec{w}_n\}$ be two bases for an $n$-dimensional vector space $V$. The \textbf{change of coordinates matrix from $\mathcal{C}$-coordinates to $\mathcal{B}$-coordinates} is the $n \times n$ matrix whose columns are the $\mathcal{B}$-coordinates of the vectors in $\mathcal{C}$:
+\[
+{}_{\mathcal{B}}P_{\mathcal{C}} = \Bigl[\; [\vec{w}_1]_{\mathcal{B}} \;\; [\vec{w}_2]_{\mathcal{B}} \;\; \cdots \;\; [\vec{w}_n]_{\mathcal{B}} \;\Bigr].
+\]
+\end{definition}
+
+\begin{remark}
+Read the subscripts from right to left: ${}_{\mathcal{B}}P_{\mathcal{C}}$ takes in $\mathcal{C}$-coordinates (on the right) and outputs $\mathcal{B}$-coordinates (on the left). The subscripts ``chain'' nicely in the formula below, since the inner $\mathcal{C}$'s line up.
+\end{remark}
+
+\begin{theorem}[Changing Coordinates]\label{thm:L4-change}
+Let $\mathcal{B}$ and $\mathcal{C}$ be bases for an $n$-dimensional vector space $V$. For every $\vec{x} \in V$,
+\[
+[\vec{x}]_{\mathcal{B}} = {}_{\mathcal{B}}P_{\mathcal{C}}\,[\vec{x}]_{\mathcal{C}}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{C} = \{\vec{w}_1, \dots, \vec{w}_n\}$ and write $\vec{x} = c_1\vec{w}_1 + \dots + c_n\vec{w}_n$, so $[\vec{x}]_{\mathcal{C}}$ has entries $c_1, \dots, c_n$. Using linearity of coordinates (Theorem~\ref{thm:L4-linear}):
+\begin{alignat*}{2}
+[\vec{x}]_{\mathcal{B}} &= [c_1\vec{w}_1 + \dots + c_n\vec{w}_n]_{\mathcal{B}} && \\
+&= c_1[\vec{w}_1]_{\mathcal{B}} + \dots + c_n[\vec{w}_n]_{\mathcal{B}} &\qquad& \by{linearity} \\
+&= \Bigl[\; [\vec{w}_1]_{\mathcal{B}} \;\; \cdots \;\; [\vec{w}_n]_{\mathcal{B}} \;\Bigr] \begin{bmatrix} c_1 \\ \vdots \\ c_n \end{bmatrix} && \by{matrix times vector = combination of columns} \\
+&= {}_{\mathcal{B}}P_{\mathcal{C}}\,[\vec{x}]_{\mathcal{C}}. &&
+\end{alignat*}
+\end{proof}
+
+\begin{example}[Building a Change of Coordinates Matrix from the Definition]
+In $\mathbb{R}^2$, let $\mathcal{E}$ be the standard basis and
+\[
+\mathcal{B} = \left\{ \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \end{bmatrix} \right\},
+\qquad
+\vec{v} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}.
+\]
+Find ${}_{\mathcal{B}}P_{\mathcal{E}}$, and use it to find $[\vec{v}]_{\mathcal{B}}$.
+
+\begin{solution}
+We need the $\mathcal{B}$-coordinates of each standard basis vector:
+\begin{alignat*}{2}
+\begin{bmatrix} 1 \\ 0 \end{bmatrix} &= 1\begin{bmatrix} 1 \\ 1 \end{bmatrix} - 1\begin{bmatrix} 0 \\ 1 \end{bmatrix}
+&\qquad& \implies [\vec{e}_1]_{\mathcal{B}} = \begin{bmatrix} 1 \\ -1 \end{bmatrix}, \\
+\begin{bmatrix} 0 \\ 1 \end{bmatrix} &= 0\begin{bmatrix} 1 \\ 1 \end{bmatrix} + 1\begin{bmatrix} 0 \\ 1 \end{bmatrix}
+&& \implies [\vec{e}_2]_{\mathcal{B}} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}.
+\end{alignat*}
+Putting these in as columns,
+\[
+{}_{\mathcal{B}}P_{\mathcal{E}} = \begin{bmatrix} 1 & 0 \\ -1 & 1 \end{bmatrix}.
+\]
+Since $[\vec{v}]_{\mathcal{E}}$ is just $\vec{v}$ itself,
+\[
+[\vec{v}]_{\mathcal{B}} = {}_{\mathcal{B}}P_{\mathcal{E}}\,[\vec{v}]_{\mathcal{E}} = \begin{bmatrix} 1 & 0 \\ -1 & 1 \end{bmatrix}\begin{bmatrix} 2 \\ 3 \end{bmatrix} = \begin{bmatrix} 2 \\ 1 \end{bmatrix},
+\]
+which matches what we found by hand in the first example.
+\end{solution}
+\end{example}
+
+\begin{theorem}[Inverse of a Change of Coordinates Matrix]
+Let $\mathcal{B}$ and $\mathcal{C}$ be bases for an $n$-dimensional vector space $V$. Then ${}_{\mathcal{B}}P_{\mathcal{C}}$ is invertible, and
+\[
+\bigl({}_{\mathcal{B}}P_{\mathcal{C}}\bigr)^{-1} = {}_{\mathcal{C}}P_{\mathcal{B}}.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply Theorem~\ref{thm:L4-change} twice. For every $\vec{x} \in V$,
+\[
+{}_{\mathcal{C}}P_{\mathcal{B}}\;{}_{\mathcal{B}}P_{\mathcal{C}}\,[\vec{x}]_{\mathcal{C}} = {}_{\mathcal{C}}P_{\mathcal{B}}\,[\vec{x}]_{\mathcal{B}} = [\vec{x}]_{\mathcal{C}}.
+\]
+Every column $\vec{a} \in \mathbb{R}^n$ is $[\vec{x}]_{\mathcal{C}}$ for some $\vec{x}$ (take $\vec{x} = a_1\vec{w}_1 + \dots + a_n\vec{w}_n$), so the matrix ${}_{\mathcal{C}}P_{\mathcal{B}}\;{}_{\mathcal{B}}P_{\mathcal{C}}$ sends every $\vec{a}$ to itself. The only matrix that does this is $I$. The same argument with $\mathcal{B}$ and $\mathcal{C}$ swapped gives the product in the other order, so the two matrices are inverses.
+\end{proof}
+
+\begin{formula}[How to Compute ${}_{\mathcal{B}}P_{\mathcal{C}}$]
+Write every vector in standard coordinates. Put the $\mathcal{B}$ vectors on the left and the $\mathcal{C}$ vectors on the right, and row reduce:
+\[
+\Bigl[\; \vec{b}_1 \ \cdots \ \vec{b}_n \;\Big|\; \vec{w}_1 \ \cdots \ \vec{w}_n \;\Bigr]
+\ \longrightarrow\
+\Bigl[\; I \;\Big|\; {}_{\mathcal{B}}P_{\mathcal{C}} \;\Bigr].
+\]
+This works because finding $[\vec{w}_j]_{\mathcal{B}}$ means solving a system whose coefficient matrix has the $\mathcal{B}$ vectors as columns. All $n$ systems share that coefficient matrix, so we solve them all at once.
+
+\medskip
+\textbf{Shortcut:} once you have one direction, the other is the inverse, ${}_{\mathcal{C}}P_{\mathcal{B}} = \bigl({}_{\mathcal{B}}P_{\mathcal{C}}\bigr)^{-1}$.
+\end{formula}
+
+\begin{example}[Change of Coordinates in $\mathbb{R}^2$]
+Consider the two bases
+\[
+\mathcal{B} = \left\{ \begin{bmatrix} 1 \\ 3 \end{bmatrix}, \begin{bmatrix} 2 \\ 1 \end{bmatrix} \right\},
+\qquad
+\mathcal{C} = \left\{ \begin{bmatrix} -1 \\ 1 \end{bmatrix}, \begin{bmatrix} 5 \\ -4 \end{bmatrix} \right\}
+\]
+for $\mathbb{R}^2$. Determine ${}_{\mathcal{C}}P_{\mathcal{B}}$ and ${}_{\mathcal{B}}P_{\mathcal{C}}$.
+
+\begin{solution}
+For ${}_{\mathcal{C}}P_{\mathcal{B}}$ we need the $\mathcal{C}$-coordinates of the $\mathcal{B}$ vectors, so $\mathcal{C}$ goes on the left:
+\begin{align*}
+\left[\begin{array}{cc|cc}
+-1 & 5 & 1 & 2 \\
+1 & -4 & 3 & 1
+\end{array}\right]
+&\xrightarrow{R_2 + R_1}
+\left[\begin{array}{cc|cc}
+-1 & 5 & 1 & 2 \\
+0 & 1 & 4 & 3
+\end{array}\right]
+\xrightarrow{-R_1}
+\left[\begin{array}{cc|cc}
+1 & -5 & -1 & -2 \\
+0 & 1 & 4 & 3
+\end{array}\right] \\[0.8em]
+&\xrightarrow{R_1 + 5R_2}
+\left[\begin{array}{cc|cc}
+1 & 0 & 19 & 13 \\
+0 & 1 & 4 & 3
+\end{array}\right].
+\end{align*}
+Hence
+\[
+{}_{\mathcal{C}}P_{\mathcal{B}} = \begin{bmatrix} 19 & 13 \\ 4 & 3 \end{bmatrix}.
+\]
+We can check the first column, which should rebuild the first vector of $\mathcal{B}$:
+\[
+19\begin{bmatrix} -1 \\ 1 \end{bmatrix} + 4\begin{bmatrix} 5 \\ -4 \end{bmatrix} = \begin{bmatrix} 1 \\ 3 \end{bmatrix}. \;\checkmark
+\]
+
+For the other direction we invert. Since $\det = 19(3) - 13(4) = 5$,
+\[
+{}_{\mathcal{B}}P_{\mathcal{C}} = \bigl({}_{\mathcal{C}}P_{\mathcal{B}}\bigr)^{-1}
+= \frac{1}{5}\begin{bmatrix} 3 & -13 \\ -4 & 19 \end{bmatrix}
+= \begin{bmatrix} 3/5 & -13/5 \\ -4/5 & 19/5 \end{bmatrix}.
+\]
+\end{solution}
+\end{example}
+
+\begin{example}[Change of Coordinates in $P_2(\mathbb{R})$]
+Find ${}_{\mathcal{B}}P_{\mathcal{C}}$ where
+\[
+\mathcal{C} = \{1, \ x, \ x^2\}, \qquad \mathcal{B} = \{1 - x^2, \ x, \ 1 + x^2\}
+\]
+are two bases for $P_2(\mathbb{R})$. Then find a formula for $[p]_{\mathcal{B}}$ when $p = a + bx + cx^2$.
+
+\begin{solution}
+In standard coordinates, the $\mathcal{B}$ polynomials are the columns
+\[
+1 - x^2 \to \begin{bmatrix} 1 \\ 0 \\ -1 \end{bmatrix}, \qquad
+x \to \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}, \qquad
+1 + x^2 \to \begin{bmatrix} 1 \\ 0 \\ 1 \end{bmatrix},
+\]
+and since $\mathcal{C}$ is the standard basis, the $\mathcal{C}$ polynomials give the identity. Row reducing the block matrix:
+\begin{align*}
+\left[\begin{array}{ccc|ccc}
+1 & 0 & 1 & 1 & 0 & 0 \\
+0 & 1 & 0 & 0 & 1 & 0 \\
+-1 & 0 & 1 & 0 & 0 & 1
+\end{array}\right]
+&\xrightarrow{R_3 + R_1}
+\left[\begin{array}{ccc|ccc}
+1 & 0 & 1 & 1 & 0 & 0 \\
+0 & 1 & 0 & 0 & 1 & 0 \\
+0 & 0 & 2 & 1 & 0 & 1
+\end{array}\right] \\[0.8em]
+&\xrightarrow{\frac{1}{2}R_3}
+\left[\begin{array}{ccc|ccc}
+1 & 0 & 1 & 1 & 0 & 0 \\
+0 & 1 & 0 & 0 & 1 & 0 \\
+0 & 0 & 1 & 1/2 & 0 & 1/2
+\end{array}\right]
+\xrightarrow{R_1 - R_3}
+\left[\begin{array}{ccc|ccc}
+1 & 0 & 0 & 1/2 & 0 & -1/2 \\
+0 & 1 & 0 & 0 & 1 & 0 \\
+0 & 0 & 1 & 1/2 & 0 & 1/2
+\end{array}\right].
+\end{align*}
+Therefore
+\[
+{}_{\mathcal{B}}P_{\mathcal{C}} = \begin{bmatrix} 1/2 & 0 & -1/2 \\ 0 & 1 & 0 \\ 1/2 & 0 & 1/2 \end{bmatrix}.
+\]
+For $p = a + bx + cx^2$, the standard coordinates $[p]_{\mathcal{C}}$ are just $a, b, c$, so
+\[
+[p]_{\mathcal{B}} = {}_{\mathcal{B}}P_{\mathcal{C}}\,[p]_{\mathcal{C}}
+= \begin{bmatrix} 1/2 & 0 & -1/2 \\ 0 & 1 & 0 \\ 1/2 & 0 & 1/2 \end{bmatrix}\begin{bmatrix} a \\ b \\ c \end{bmatrix}
+= \begin{bmatrix} \tfrac{1}{2}(a - c) \\ b \\ \tfrac{1}{2}(a + c) \end{bmatrix}.
+\]
+\textbf{Check.} Take $p = 3 + 2x + x^2$, so $a = 3$, $b = 2$, $c = 1$, and the formula gives the coordinates $1, 2, 2$. Indeed,
+\[
+1(1 - x^2) + 2(x) + 2(1 + x^2) = 3 + 2x + x^2. \;\checkmark
+\]
+\end{solution}
+\end{example}
